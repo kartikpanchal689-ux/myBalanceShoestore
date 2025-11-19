@@ -1,0 +1,246 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+ /* background-color: #000;*/
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+.header {
+  height: 70px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 60px;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+/* LOGO AREA */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.8px;
+}
+
+/* NAVIGATION LINKS */
+.nav-links {
+  display: flex;
+  gap: 50px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ffcc00;
+}
+
+/* MENU ICON */
+.menu-icon {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  padding-top: 45px; /* Prevent header overlap */
+}
+
+/* HERO IMAGE SECTION */
+   .product-slider-container {
+  background-image: url('/images/image2.png'); /* must be in public/images/ */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll; /* safer across devices */
+  background-color: #000; /* fallback color */
+
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-slider-container::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* covers the whole container */
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.4), /* top: semi-transparent black */
+    rgba(0,0,0,0.8)  /* bottom: darker black */
+  );
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: relative; /* ensures text sits above gradient */
+  z-index: 2;
+}
+
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* HERO OVERLAY */
+.hero-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  text-align: center;
+  color: #fff;
+  z-index: 2;
+  padding: 0 15px; /* add padding so text doesn't touch edges on phones */
+}
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.hero-btn {
+  background-color: #ffcc00;
+  color: #000;
+  border: none;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hero-btn:hover {
+  background-color: #e6b800;
+}
+/* ===========================
+   RESPONSIVENESS
+   =========================== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .header {
+    padding: 12px 40px;
+  }
+  .logo {
+    width: 38px;
+    height: 38px;
+  }
+  .brand-name {
+    font-size: 1.2rem;
+  }
+  .nav-links {
+    gap: 35px;
+  }
+}
+
+/* Mobile (phones) */
+@media (max-width: 768px) {
+  .header {
+    height: 45px;
+    padding: 0 20px;
+  }
+
+  .logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .brand-name {
+    font-size: 1rem;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.95);
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .menu-icon {
+    display: flex;
+  }
+
+  .main-content {
+      margin-top: var(--header-height);
+  }
+
+  .product-slider-container {
+    height: calc(100vh - 45px); /* mobile */
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  .hero-btn {
+    padding: 10px 22px;
+    font-size: 0.9rem;
+  }
+
+}

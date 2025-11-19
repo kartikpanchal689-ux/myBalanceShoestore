@@ -1,0 +1,36 @@
+.cta-banner {
+  background: linear-gradient(90deg, #000, #333);
+  color: #fff;
+  text-align: center;
+  padding: 40px 20px;   /* reduced padding */
+  margin: 40px 0;       /* less vertical spacing */
+  border-radius: 8px;
+  position: relative;
+}
+
+.cta-content h2 {
+  font-size: 1.8rem;    /* smaller heading */
+  margin-bottom: 10px;
+}
+
+.cta-content p {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: #ddd;
+}
+
+.cta-btn {
+  background: #e53935;
+  color: #fff;
+  padding: 8px 18px;    /* slimmer button */
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.cta-btn:hover {
+  background: #c62828;
+  transform: scale(1.05);
+}

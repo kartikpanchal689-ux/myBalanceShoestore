@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-<meta http-equiv="refresh" content="0; url=/myBalanceShoestore/" />
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+      // Redirect to index.html but keep the path
+      var redirectTo = '/myBalanceShoestore/index.html';
+      var pathname = window.location.pathname.replace('/myBalanceShoestore', '');
+      window.location.replace(redirectTo + '#' + pathname);
+    </script>
   </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
 </html>

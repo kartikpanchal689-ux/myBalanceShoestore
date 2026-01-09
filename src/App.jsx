@@ -1,51 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import MainHeader from './modules/MainHeader';
 import HeroSlider from './modules/HeroSlider';
 import Category from './modules/Category';
 import FeaturedSection from './modules/FeaturedSection';
-import ShopNowGrid from "./modules/ShopNowGrid";
+import ShopNowGrid from './modules/ShopNowGrid';
 import CTABanner from './modules/CTAbanner';
+import Testimonials from './modules/Testimonials';
+import Newsletters from './modules/Newsletters';
+import Footer from './modules/Footer';
+import ProductGrid from './modules/ProductGrid';
+import Cart from './modules/Cart';
+import Checkout from './modules/Checkout';
+import Login from './modules/Login';
+import { shopNowProducts, gridProducts } from './data/products';
+import Register from './modules/Register';   // or './modules/Register' if you placed it there
 
-const allProducts = [
-  { name: "NB Running Elite", price: 150, image: "/images/shoes1.png" },
-  { name: "NB Lifestyle Classic", price: 120, image: "/images/lifestyleClassic.png" },
-  { name: "NB Training Pro", price: 130, image: "/images/shoes3.png" },
-  { name: "NB Staple Tee", price: 45, image: "/images/stapleTee.png" },
-];
-
-const featuredProducts = [
-  {
-    name: "NB Running Elite",
-    tagline: "Best for Marathon Training",
-    price: 150,
-    image: "/images/feature1.png",
-  },
-  {
-    name: "NB Lifestyle Classic",
-    tagline: "Comfort Meets Style",
-    price: 120,
-    image: "/images/feature2.png",
-  },
-];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [cartItems, setCartItems] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+
+  const addToCart = (product) => setCartItems([...cartItems, product]);
+
+  const handleLogout = () => setIsLoggedIn(false);
 
   return (
-    <>
     <div>
-      <HeroSlider/>
-      <Category/>
-      <FeaturedSection products={featuredProducts} />
-      <ShopNowGrid products={allProducts} />
-      <CTABanner/>
+      <MainHeader
+        cartCount={cartItems.length}
+        isLoggedIn={isLoggedIn}
+        onLogout={handleLogout}
+      />
+
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <HeroSlider />
+              <Category />
+              <FeaturedSection products={[]} />
+              <ShopNowGrid products={shopNowProducts} />
+              <CTABanner />
+              <Testimonials />
+              <Newsletters />
+              <ProductGrid products={gridProducts} />
+              <Footer />
+            </>
+          }
+        />
+        <Route path="/cart" element={<Cart items={cartItems} setItems={setCartItems} />} />
+        <Route path="/checkout" element={<Checkout total={total} />} />
+        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/signup" element={<Register />} />  {/* NEW */}
+      </Routes>
     </div>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;

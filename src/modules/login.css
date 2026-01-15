@@ -1,9 +1,9 @@
 /* Full black background only for login page */
-/* Full black background only for login page */
 .login-page {
+  padding-top: 70px;
   background-color: #000;   /* make whole page black */
   min-height: 100vh;        /* cover full height */
-  width: 100vw;              /* cover full width */
+  width: 100vw;             /* cover full width */
   display: flex;
   justify-content: center;  /* center horizontally */
   align-items: center;      /* center vertically */
@@ -30,6 +30,8 @@
   display: flex;
   flex-direction: column;
   animation: fadeIn 0.6s ease-in-out;
+  position: relative;   /* ✅ ensures form is above overlays */
+ 
 }
 
 /* Heading */
@@ -77,6 +79,9 @@
   cursor: pointer;
   font-size: 1rem;
   transition: transform 0.2s ease, background 0.3s ease;
+  touch-action: manipulation; /* ✅ improves mobile tap response */
+  position: relative;
+  z-index: 1000;
 }
 
 .login-form button:hover {
@@ -145,6 +150,7 @@
   font-weight: 500;
   width: 100%;
   transition: background 0.3s ease, transform 0.2s ease;
+  touch-action: manipulation; /* ✅ mobile tap fix */
 }
 
 .google-btn:hover {
@@ -177,6 +183,7 @@
   border-radius: 6px;
   font-weight: 500;
   transition: background 0.3s ease;
+  touch-action: manipulation; /* ✅ mobile tap fix */
 }
 
 .login-toggle button.active {
@@ -189,9 +196,10 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
 @media (max-width: 480px) {
   .login-toggle {
-    flex-direction: row;   /* keep side by side */
+    flex-direction: row;
     gap: 8px;
   }
 

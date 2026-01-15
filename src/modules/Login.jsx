@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./login.css";
 
 function Login({ setIsLoggedIn }) {
@@ -109,7 +110,7 @@ const verifyOtp = (e) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <p className="forgot-link">
-                <a href="/forgot-password">Forgot Password?</a>
+                <Link to="/forgot-password">Forgot Password?</Link>
               </p>
               <button type="submit">Login</button>
             </>
@@ -148,7 +149,7 @@ const verifyOtp = (e) => {
 
           {/* Register link */}
           <p className="signup-link">
-            Not registered? <a href="/signup">Sign up</a>
+            Not registered? <Link to="/Register">Sign up</Link>
           </p>
         </form>
 

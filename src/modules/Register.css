@@ -3,9 +3,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* full screen height */
+  min-height: 100vh;
   background: #f5f5f5;
-  padding-top: 80px; /* push down so it clears the header */
+  padding-top: 80px; /* clears fixed header height */
 }
 
 /* Container box */
@@ -16,6 +16,8 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 400px;
+  position: relative;
+  z-index: 1; /* keeps form below header */
 }
 
 /* Form styling */
@@ -51,6 +53,9 @@
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
+  touch-action: manipulation;
+  position: relative;
+  z-index: 2; /* ensures button is tappable */
 }
 
 .register-form button:hover {
@@ -79,4 +84,10 @@
 
 .login-link a:hover {
   text-decoration: underline;
+}
+
+/* Global button fix */
+button {
+  cursor: pointer;
+  touch-action: manipulation;
 }

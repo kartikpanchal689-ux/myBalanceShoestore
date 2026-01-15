@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Redirecting...</title>
-    <script type="text/javascript">
-      // Redirect to index.html but keep the path
-      var redirectTo = '/myBalanceShoestore/index.html';
-      var pathname = window.location.pathname.replace('/myBalanceShoestore', '');
-      window.location.replace(redirectTo + '#' + pathname);
+    <script>
+      const repo = "/myBalanceShoestore";
+      const path = window.location.pathname;
+
+      // redirect /signup → #/signup
+      if (path.includes("/signup")) {
+        window.location.replace(repo + "/#/signup");
+      } 
+      // redirect /login → #/login
+      else if (path.includes("/login")) {
+        window.location.replace(repo + "/#/login");
+      } 
+      // fallback
+      else {
+        window.location.replace(repo + "/#/");
+      }
     </script>
   </head>
-  <body>
-    <p>Redirecting...</p>
-  </body>
+  <body></body>
 </html>

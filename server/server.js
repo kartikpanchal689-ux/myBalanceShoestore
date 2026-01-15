@@ -4,14 +4,18 @@ const cors = require("cors");
 const User = require("./models/user");
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://kartikpanchal689-ux.github.io",
+    "https://nachal689-ux.github.io"
+  ]
+}));
 app.use(express.json());
 
-// connect to MongoDB (make sure MongoDB is running locally)
-mongoose.connect("mongodb://127.0.0.1:27017/mybalance")
+// ✅ Connect to MongoDB Atlas (not localhost)
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))
   .catch(err => console.error("❌ MongoDB connection error:", err));
-
 
 // ------------------- REGISTER -------------------
 app.post("/api/register", async (req, res) => {
@@ -38,14 +42,13 @@ app.post("/api/login", async (req, res) => {
   }
 
   const otp = Math.floor(100000 + Math.random() * 900000);
-  user.otp = otp; // save to user document
+  user.otp = otp;
   await user.save();
 
   console.log(`OTP for ${identifier}: ${otp}`);
 
   res.json({ success: true, message: "OTP sent" });
 });
-
 
 // ------------------- VERIFY OTP -------------------
 app.post("/api/verify-otp", async (req, res) => {
@@ -60,7 +63,7 @@ app.post("/api/verify-otp", async (req, res) => {
   }
 
   if (user.otp === parseInt(otp)) {
-    user.otp = null; // clear OTP after use
+    user.otp = null;
     await user.save();
     return res.json({ success: true, message: "Login successful" });
   } else {
@@ -68,6 +71,6 @@ app.post("/api/verify-otp", async (req, res) => {
   }
 });
 
-
-// ------------------- START SERVER -------------------
-app.listen(5000, () => console.log("Server running on http://localhost:5000"));
+// ✅ Use Render's dynamic port
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

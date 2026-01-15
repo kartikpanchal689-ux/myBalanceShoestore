@@ -14,8 +14,7 @@ import Cart from './modules/Cart';
 import Checkout from './modules/Checkout';
 import Login from './modules/Login';
 import { shopNowProducts, gridProducts } from './data/products';
-import Register from './modules/Register';   // or './modules/Register' if you placed it there
-
+import Register from './modules/Register';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -35,28 +34,29 @@ function App() {
         onLogout={handleLogout}
       />
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <HeroSlider />
-              <Category />
-              <FeaturedSection products={[]} />
-              <ShopNowGrid products={shopNowProducts} />
-              <CTABanner />
-              <Testimonials />
-              <Newsletters />
-              <ProductGrid products={gridProducts} />
-              <Footer />
-            </>
-          }
-        />
-        <Route path="/cart" element={<Cart items={cartItems} setItems={setCartItems} />} />
-        <Route path="/checkout" element={<Checkout total={total} />} />
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="/signup" element={<Register />} />  {/* NEW */}
-      </Routes>
+    <Routes>
+  <Route
+    path=""
+    element={
+      <>
+        <HeroSlider />
+        <Category />
+        <FeaturedSection products={[]} />
+        <ShopNowGrid products={shopNowProducts} />
+        <CTABanner />
+        <Testimonials />
+        <Newsletters />
+        <ProductGrid products={gridProducts} />
+        <Footer />
+      </>
+    }
+  />
+  <Route path="cart" element={<Cart items={cartItems} setItems={setCartItems} />} />
+  <Route path="checkout" element={<Checkout total={total} />} />
+  <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+  <Route path="register" element={<Register />} /> {/* ✅ lowercase and no slash */}
+</Routes>
+
     </div>
   );
 }

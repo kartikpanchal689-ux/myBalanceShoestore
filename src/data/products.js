@@ -5,7 +5,8 @@ const allProducts = [
     price: 150,
     image: "/myBalanceShoestore/images/shoes1.png",
     description: "Elite running shoes with advanced cushioning.",
-    category: "Shoes"
+    category: "Shoes",
+    stock: 50
   },
   {
     id: 2,
@@ -13,7 +14,8 @@ const allProducts = [
     price: 120,
     image: "/myBalanceShoestore/images/lifestyleClassic.png",
     description: "Stylish and comfortable for everyday wear.",
-    category: "Lifestyle"
+    category: "Lifestyle",
+    stock: 30
   },
   {
     id: 3,
@@ -21,7 +23,8 @@ const allProducts = [
     price: 130,
     image: "/myBalanceShoestore/images/shoes3.png",
     description: "Pro-level training shoes.",
-    category: "Shoes"
+    category: "Shoes",
+    stock: 40
   },
   {
     id: 4,
@@ -29,7 +32,8 @@ const allProducts = [
     price: 45,
     image: "/myBalanceShoestore/images/stapleTee.png",
     description: "Soft cotton tee for casual comfort.",
-    category: "Lifestyle"
+    category: "Lifestyle",
+    stock: 100
   },
   {
     id: 5,
@@ -37,7 +41,8 @@ const allProducts = [
     price: 130,
     image: "/myBalanceShoestore/images/Footershoe.png",
     description: "Pro-level training shoes.",
-    category: "Shoes"
+    category: "Shoes",
+    stock: 20
   },
   {
     id: 6,
@@ -45,7 +50,8 @@ const allProducts = [
     price: 130,
     image: "/myBalanceShoestore/images/FooterTee.png",
     description: "Pro-level training shoes.",
-    category: "Shoes"
+    category: "Shoes",
+    stock: 90
   },
   {
     id: 7,
@@ -53,7 +59,8 @@ const allProducts = [
     price: 130,
     image: "/myBalanceShoestore/images/Footershoes1.png",
     description: "Pro-level training shoes.",
-    category: "Shoes"
+    category: "Shoes",
+    stock: 85
   },
   {
     id: 8,
@@ -61,7 +68,8 @@ const allProducts = [
     price: 130,
     image: "/myBalanceShoestore/images/FooterTee1.png",
     description: "Pro-level training shoes.",
-    category: "Shoes"
+    category: "Shoes",
+    stock: 70
   },
 ];
 

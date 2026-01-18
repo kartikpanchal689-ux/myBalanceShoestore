@@ -9,36 +9,29 @@ const otpStore = {};
 // Generate random 6-digit OTP
 const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
 
-
 // ---------------- PASSWORD LOGIN ----------------
 router.post("/password-login", async (req, res) => {
-  const identifier = req.body.identifier?.toLowerCase();
-  const password = req.body.password;
+  const { identifier, password } = req.body;
 
   try {
-    const user = await User.findOne({ email: identifier });
+    const user = await User.findOne({
+      $or: [{ email: identifier }, { phone: identifier }],
+    });
 
     if (!user) {
       return res.status(401).json({ success: false, message: "User not found" });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.passwordHash || user.password);
     if (!isMatch) {
       return res.status(401).json({ success: false, message: "Invalid credentials" });
     }
 
-    return res.status(200).json({
-      success: true,
-      role: user.role || "customer",
-      message: `${user.role === "admin" ? "Admin" : "Customer"} login successful`
-    });
+    return res.status(200).json({ success: true, message: "Login successful" });
   } catch (err) {
-    console.error("🔥 Server error:", err);
     return res.status(500).json({ success: false, message: "Server error" });
   }
 });
-
-
 
 // ---------------- SEND OTP ----------------
 router.post("/login", async (req, res) => {

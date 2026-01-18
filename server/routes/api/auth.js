@@ -32,6 +32,7 @@ router.post("/password-login", async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error" });
   }
 });
+ 
 
 // ---------------- SEND OTP ----------------
 router.post("/login", async (req, res) => {

@@ -5,10 +5,9 @@ import "./login.css";
 
 function Login({ setIsLoggedIn }) {
   const [mode, setMode] = useState("password"); // "password" or "otp"
-  const [emailOrPhone, setEmailOrPhone] = useState(""); // can be email or phone
+  const [emailOrPhone, setEmailOrPhone] = useState(""); 
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
-  const [sentOtp, setSentOtp] = useState(null); // store OTP from backend
   const [otpSent, setOtpSent] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -20,19 +19,32 @@ function Login({ setIsLoggedIn }) {
       setError("Please enter both email/phone and password.");
       return;
     }
-    // TODO: call backend password login if you want
-    setIsLoggedIn(true);
-    navigate("/");
-  };
 
-  // ---------------- SEND OTP ----------------
+    fetch("https://mybalanceshoestore.onrender.com/api/password-login", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ identifier: emailOrPhone, password }),
+})
+  .then((res) => res.json())
+  .then((data) => {
+    if (data.success) {
+      setIsLoggedIn(true);
+      navigate("/");
+    } else {
+      setError(data.message);
+    }
+  })
+  .catch(() => setError("Server error"));
+  };
+  
+// ---------------- SEND OTP ----------------
 const sendOtp = () => {
   if (!emailOrPhone) {
     setError("Please enter your email/phone.");
     return;
   }
 
-  fetch("http://localhost:5000/api/login", {
+  fetch("https://mybalanceshoestore.onrender.com/api/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ identifier: emailOrPhone }),
@@ -40,40 +52,41 @@ const sendOtp = () => {
     .then((res) => res.json())
     .then((data) => {
       if (data.success) {
-        setSentOtp(data.otp); // store OTP temporarily
         setOtpSent(true);
         setError("");
-        alert("OTP sent to " + emailOrPhone);
+        alert("OTP sent to your email/phone");
       } else {
         setError(data.message);
       }
-    });
+    })
+    .catch(() => setError("Server error"));
 };
 
-// ---------------- VERIFY OTP ----------------
-const verifyOtp = (e) => {
-  e.preventDefault();
-  if (!otp) {
-    setError("Please enter the OTP.");
-    return;
-  }
+  // ---------------- VERIFY OTP ----------------
+  const verifyOtp = (e) => {
+    e.preventDefault();
+    if (!otp) {
+      setError("Please enter the OTP.");
+      return;
+    }
 
-  fetch("http://localhost:5000/api/verify-otp", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ otp, sentOtp }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.success) {
-        setIsLoggedIn(true);
-        navigate("/");
-      } else {
-        setError(data.message);
-      }
-    });
-};
-
+    // ✅ Send email/phone + otp to backend
+    fetch("https://mybalanceshoestore.onrender.com/api/verify-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ identifier: emailOrPhone, otp }), // <-- match backend
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setIsLoggedIn(true);
+          navigate("/");
+        } else {
+          setError(data.message);
+        }
+      })
+      .catch(() => setError("Server error"));
+  };
 
   const handleGoogleLogin = () => {
     alert("Signed in with Google!");

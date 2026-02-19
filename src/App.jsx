@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import MainHeader from './modules/MainHeader';
 import HeroSlider from './modules/HeroSlider';
@@ -22,8 +22,45 @@ import { shopNowProducts, gridProducts } from './data/products';
 
 
 function App() {
-  const [cartItems, setCartItems] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const saved = localStorage.getItem('cartItems');
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
+
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem('isLoggedIn') === 'true';
+  });
+
+  const [recentlyViewed, setRecentlyViewed] = useState(() => {
+    try {
+      const saved = localStorage.getItem('recentlyViewed');
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
+
+  const [searchHistory, setSearchHistory] = useState(() => {
+    try {
+      const saved = localStorage.getItem('searchHistory');
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
+
+  // Persist cartItems to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  // Persist recentlyViewed to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('recentlyViewed', JSON.stringify(recentlyViewed));
+  }, [recentlyViewed]);
+
+  // Persist searchHistory to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+  }, [searchHistory]);
 
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
@@ -42,7 +79,25 @@ function App() {
     });
   };
 
-  const handleLogout = () => setIsLoggedIn(false);
+  const addToRecentlyViewed = (product) => {
+    setRecentlyViewed(prev => {
+      const filtered = prev.filter(p => p.id !== product.id);
+      return [product, ...filtered].slice(0, 10); // keep last 10
+    });
+  };
+
+  const addToSearchHistory = (query) => {
+    if (!query.trim()) return;
+    setSearchHistory(prev => {
+      const filtered = prev.filter(q => q !== query);
+      return [query, ...filtered].slice(0, 10); // keep last 10
+    });
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem('isLoggedIn');
+  };
 
   return (
     <div>
@@ -79,11 +134,11 @@ function App() {
         />
         <Route
           path="/product/:id"
-          element={<ProductDetail addToCart={addToCart} />}
+          element={<ProductDetail addToCart={addToCart} addToRecentlyViewed={addToRecentlyViewed} />}
         />
         <Route
           path="/search"
-          element={<SearchResults addToCart={addToCart} />}
+          element={<SearchResults addToCart={addToCart} addToSearchHistory={addToSearchHistory} searchHistory={searchHistory} />}
         />
         <Route
           path="/cart"

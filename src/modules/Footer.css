@@ -1,29 +1,235 @@
-.footer {
-  padding: 2rem 1rem;
-  background: #111;
-  color: #eee;
-  text-align: center;
+/* ─── FOOTER ──────────────────────────────────────────────────────── */
+.nb-footer {
+  background: #0a0a0a;
+  color: #ffffff;
+  width: 100%;
 }
 
-.footer .links,
-.footer .socials {
+.nb-footer__top {
+  display: grid;
+  grid-template-columns: 1.3fr 2fr 1fr;
+  gap: 60px;
+  padding: 72px 60px;
+  max-width: 1440px;
+  margin: 0 auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Brand */
+.nb-footer__logo {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+  color: #ffffff;
+}
+
+.nb-footer__tagline {
+  font-size: 0.85rem;
+  color: #888;
+  line-height: 1.65;
+  margin-bottom: 24px;
+  max-width: 260px;
+}
+
+.nb-footer__socials {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 8px;
 }
 
-.footer a {
-  color: #ff4c29;
+.nb-footer__social {
+  font-size: 0.8rem;
+  color: #777;
   text-decoration: none;
-  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
 }
 
-.footer a:hover {
-  text-decoration: underline;
+.nb-footer__social:hover {
+  color: #cc0000;
 }
 
-.footer p {
+/* Navigation */
+.nb-footer__nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.nb-footer__col h5 {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.nb-footer__col a {
+  display: block;
   font-size: 0.85rem;
-  color: #aaa;
+  color: #777;
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.nb-footer__col a:hover {
+  color: #ffffff;
+}
+
+/* Newsletter */
+.nb-footer__newsletter h5 {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.nb-footer__newsletter p {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.nb-footer__form {
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+
+.nb-footer__form input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: 'Archivo', sans-serif;
+  font-size: 0.82rem;
+}
+
+.nb-footer__form input::placeholder {
+  color: #555;
+}
+
+.nb-footer__form button {
+  padding: 12px 20px;
+  background: #cc0000;
+  border: none;
+  color: #ffffff;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.nb-footer__form button:hover {
+  background: #aa0000;
+}
+
+/* Bottom Bar */
+.nb-footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  max-width: 1440px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.nb-footer__bottom span {
+  font-size: 0.75rem;
+  color: #555;
+}
+
+.nb-footer__legal {
+  display: flex;
+  gap: 20px;
+}
+
+.nb-footer__legal a {
+  font-size: 0.75rem;
+  color: #555;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nb-footer__legal a:hover {
+  color: #ffffff;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .nb-footer__top {
+    padding: 60px 40px;
+    gap: 48px;
+  }
+
+  .nb-footer__bottom {
+    padding: 18px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nb-footer__top {
+    grid-template-columns: 1fr;
+    padding: 50px 20px;
+    gap: 40px;
+  }
+
+  .nb-footer__nav {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+
+  .nb-footer__tagline {
+    max-width: 100%;
+  }
+
+  .nb-footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 20px;
+    gap: 16px;
+  }
+
+  .nb-footer__legal {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nb-footer__top {
+    padding: 40px 16px;
+    gap: 32px;
+  }
+
+  .nb-footer__logo {
+    font-size: 1.5rem;
+  }
+
+  .nb-footer__nav {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .nb-footer__bottom {
+    padding: 16px;
+  }
+
+  .nb-footer__form button {
+    padding: 12px 16px;
+  }
 }

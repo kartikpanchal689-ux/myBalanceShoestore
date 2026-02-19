@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
 const User = require("../../models/user");
 const router = express.Router();
 
@@ -9,9 +10,86 @@ const otpStore = {};
 // Generate random 6-digit OTP
 const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
 
+// ============ EMAIL SETUP ============
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'kartikpanchal689@gmail.com',
+    pass: 'tzbbvmmhucbzhdov'
+  }
+});
+
+// Verify transporter connection on startup
+transporter.verify((error, success) => {
+  if (error) {
+    console.error('❌ Transporter verify failed:', error.message);
+  } else {
+    console.log('✅ Mail server is ready');
+  }
+});
+
+// Function to send OTP email
+async function sendOtpEmail(email, otp) {
+  const mailOptions = {
+    from: '"kartikpanchal689" <kartikpanchal689@gmail.com>',
+    to: email,
+    subject: 'Your OTP Code - myBalance',
+    html: `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+          .container { background: white; max-width: 600px; margin: 0 auto; padding: 40px; border-radius: 8px; }
+          .header { text-align: center; margin-bottom: 30px; }
+          .logo { font-size: 24px; font-weight: bold; color: #cc0000; }
+          .otp-box { background: #f7f7f5; padding: 20px; text-align: center; border-radius: 8px; margin: 30px 0; }
+          .otp-code { font-size: 36px; font-weight: bold; color: #0a0a0a; letter-spacing: 8px; }
+          .footer { text-align: center; margin-top: 30px; color: #666; font-size: 14px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <div class="logo">myBalance</div>
+            <p style="color: #666;">Your One-Time Password</p>
+          </div>
+          
+          <p>Hello,</p>
+          <p>You requested to log in to your myBalance account. Use the OTP below to proceed:</p>
+          
+          <div class="otp-box">
+            <div class="otp-code">${otp}</div>
+          </div>
+          
+          <p><strong>This OTP is valid for 10 minutes.</strong></p>
+          <p>If you didn't request this, please ignore this email.</p>
+          
+          <div class="footer">
+            <p>© 2025 myBalance Shoestore. All rights reserved.</p>
+            <p>Need help? Contact us at support@mybalance.com</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`✅ OTP email sent to ${email}`);
+    return true;
+  } catch (error) {
+    console.error('❌ Email sending failed:', error.message);
+    console.error('Full error:', JSON.stringify(error));
+    return false;
+  }
+}
+
 // ---------------- PASSWORD LOGIN ----------------
 router.post("/password-login", async (req, res) => {
-  const { identifier, password } = req.body;
+  const identifier = req.body.identifier?.toLowerCase();
+  const password = req.body.password;
 
   try {
     const user = await User.findOne({
@@ -22,19 +100,24 @@ router.post("/password-login", async (req, res) => {
       return res.status(401).json({ success: false, message: "User not found" });
     }
 
-    const isMatch = await bcrypt.compare(password, user.passwordHash || user.password);
+    // Compare plain password with hashed password in DB
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
     if (!isMatch) {
       return res.status(401).json({ success: false, message: "Invalid credentials" });
     }
 
-    return res.status(200).json({ success: true, message: "Login successful" });
+    return res.status(200).json({
+      success: true,
+      role: user.role || "customer",
+      message: `${user.role === "admin" ? "Admin" : "Customer"} login successful`
+    });
   } catch (err) {
+    console.error("🔥 Server error:", err);
     return res.status(500).json({ success: false, message: "Server error" });
   }
 });
- 
 
-// ---------------- SEND OTP ----------------
+// ---------------- SEND OTP (WITH EMAIL) ----------------
 router.post("/login", async (req, res) => {
   const { identifier } = req.body;
 
@@ -48,25 +131,61 @@ router.post("/login", async (req, res) => {
     }
 
     const otp = generateOtp();
-    otpStore[identifier] = otp;
+    otpStore[identifier] = {
+      otp: otp,
+      expiresAt: Date.now() + 10 * 60 * 1000 // 10 minutes expiry
+    };
 
-    console.log(`OTP for ${identifier}: ${otp}`);
-    return res.status(200).json({ success: true, message: "OTP sent" });
+    // Send OTP via email
+    const emailSent = await sendOtpEmail(user.email, otp);
+
+    if (!emailSent) {
+      return res.status(500).json({ 
+        success: false, 
+        message: "Failed to send OTP email. Please try again." 
+      });
+    }
+
+    console.log(`📧 OTP sent to ${user.email}: ${otp}`);
+    
+    return res.status(200).json({ 
+      success: true, 
+      message: "OTP sent to your email successfully" 
+    });
   } catch (err) {
+    console.error("🔥 Server error:", err);
     return res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
-// ---------------- VERIFY OTP ----------------
+// ---------------- VERIFY OTP (WITH EXPIRY CHECK) ----------------
 router.post("/verify-otp", async (req, res) => {
   const { identifier, otp } = req.body;
 
-  const expectedOtp = otpStore[identifier];
-  if (!expectedOtp || otp !== expectedOtp) {
+  const storedData = otpStore[identifier];
+  
+  if (!storedData) {
+    return res.status(401).json({ success: false, message: "OTP expired or not found" });
+  }
+
+  // Check if OTP expired
+  if (Date.now() > storedData.expiresAt) {
+    delete otpStore[identifier];
+    return res.status(401).json({ success: false, message: "OTP has expired" });
+  }
+
+  // Verify OTP
+  if (otp !== storedData.otp) {
     return res.status(401).json({ success: false, message: "Invalid OTP" });
   }
+
+  // OTP verified successfully
   delete otpStore[identifier];
-  return res.status(200).json({ success: true, message: "Login successful" });
+  
+  return res.status(200).json({ 
+    success: true, 
+    message: "Login successful" 
+  });
 });
 
 // ---------------- PING TEST ROUTE ----------------

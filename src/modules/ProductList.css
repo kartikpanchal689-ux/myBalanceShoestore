@@ -1,0 +1,614 @@
+/* =====================================================
+   ProductList.css
+   Mobile: 2 cols, tall image area so full shoe shows
+   ===================================================== */
+
+/* ── Force ALL ancestor wrappers to be full width ── */
+body,
+#root,
+#root > *,
+#root > * > * {
+  width: 100%;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* ── OUTER WRAPPER ── */
+.product-listing {
+  width: 100vw;
+  max-width: 100vw;
+  min-height: 100vh;
+  background-color: #efefef;
+  padding: 0 24px 48px 24px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ROW ── */
+.listing-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0 16px 0;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.category-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+.product-count {
+  font-size: 22px;
+  font-weight: 400;
+  color: #888;
+  margin-left: 4px;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ── FILTER TOGGLE BUTTON ── */
+.filter-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.filter-toggle-btn:hover {
+  background: #333;
+}
+
+/* ── SORT DROPDOWN ── */
+.sort-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-dropdown label {
+  font-size: 14px;
+  color: #444;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.sort-dropdown select {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 9px 14px;
+  font-size: 14px;
+  color: #111;
+  background: #fff;
+  cursor: pointer;
+  min-width: 155px;
+}
+
+/* ── MAIN LAYOUT ── */
+.listing-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ══════════════════════════════════════
+   FILTERS SIDEBAR
+   ══════════════════════════════════════ */
+.filters-sidebar {
+  width: 260px;
+  min-width: 260px;
+  max-width: 260px;
+  flex-shrink: 0;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.09);
+  box-sizing: border-box;
+  display: none;
+  flex-direction: column;
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow: hidden;
+}
+
+.filters-sidebar.show {
+  display: flex;
+}
+
+.filters-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.filters-top-bar .sort-dropdown select {
+  min-width: 120px;
+  padding: 7px 10px;
+  font-size: 13px;
+}
+
+.filters-top-bar .filter-toggle-btn {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+.filters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px 16px;
+  flex-shrink: 0;
+}
+
+.filters-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+.clear-filters {
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: #e8471a;
+  cursor: pointer;
+  padding: 0;
+  font-weight: 500;
+}
+
+.clear-filters:hover {
+  text-decoration: underline;
+}
+
+.filters-body {
+  overflow-y: auto;
+  padding: 0 16px 16px 16px;
+  flex: 1;
+}
+
+.filter-section {
+  border-top: 1px solid #eee;
+  padding: 12px 0;
+}
+
+.filter-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+  cursor: pointer;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.expand-icon {
+  font-size: 18px;
+  color: #666;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.filter-section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.price-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.price-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.price-input-group label {
+  font-size: 13px;
+  color: #555;
+  width: 30px;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.price-input-group input[type="number"] {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #111;
+  box-sizing: border-box;
+}
+
+.price-slider,
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  accent-color: #111;
+}
+
+.price-slider::-webkit-slider-thumb,
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #111;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+  line-height: 1.4;
+  user-select: none;
+}
+
+.filter-checkbox input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  accent-color: #111;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.filter-checkbox span {
+  flex: 1;
+}
+
+/* ══════════════════════════════════════
+   PRODUCT GRID
+   ══════════════════════════════════════ */
+.products-grid {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-content: start;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.filters-sidebar.show ~ .products-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.no-products {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.no-products p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.no-products button {
+  padding: 10px 24px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ── PRODUCT CARD ── */
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.13);
+  transform: translateY(-2px);
+}
+
+/* ── IMAGE WRAPPER — desktop ── */
+.product-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+.badge {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.badge-new { color: #e8471a; }
+.badge-nb-exclusive { color: #e8471a; }
+
+/* ── CARD INFO ── */
+.product-info {
+  padding: 14px 16px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.product-category {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #aaa;
+  text-transform: uppercase;
+  margin: 0 0 10px 0;
+}
+
+.product-price {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 14px 0;
+}
+
+.add-to-cart-btn {
+  width: 100%;
+  padding: 11px 0;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: auto;
+  transition: background 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.add-to-cart-btn:hover {
+  background: #333;
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ══════════════════════════════════════ */
+
+@media (max-width: 1280px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .filters-sidebar.show ~ .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 960px) {
+  .listing-container {
+    flex-direction: column;
+  }
+  .filters-sidebar {
+    width: 100%;
+    min-width: unset;
+    max-width: unset;
+    position: static;
+    max-height: none;
+  }
+  .products-grid,
+  .filters-sidebar.show ~ .products-grid {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .listing-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ══════════════════════════════════════
+   MOBILE — 2 cols, taller image so
+   the full shoe is always visible
+   ══════════════════════════════════════ */
+@media (max-width: 600px) {
+
+  .product-listing {
+    padding: 0 10px 32px 10px;
+  }
+
+  .listing-header {
+    padding: 16px 0 12px 0;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .category-title {
+    font-size: 20px;
+  }
+
+  .header-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .filter-toggle-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .sort-dropdown select {
+    min-width: 110px;
+    font-size: 13px;
+    padding: 7px 10px;
+  }
+
+  /* 2 products per row */
+  .products-grid,
+  .filters-sidebar.show ~ .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  /* ✅ No padding — shoe fills full card width */
+  .product-image-wrapper {
+    aspect-ratio: 1 / 1;
+    height: auto;
+    padding: 0;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transform: none;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  /* Card info tightened for smaller cards */
+  .product-info {
+    padding: 10px 10px 12px 10px;
+  }
+
+  .product-name {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  .product-category {
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+
+  .product-price {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .add-to-cart-btn {
+    padding: 9px 0;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+
+  .badge {
+    font-size: 10px;
+    top: 8px;
+    left: 8px;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .products-grid,
+  .filters-sidebar.show ~ .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .product-listing {
+    padding: 0 8px 24px 8px;
+  }
+
+  .product-image-wrapper {
+    aspect-ratio: 1 / 1;
+    height: auto;
+    padding: 0;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transform: none;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}

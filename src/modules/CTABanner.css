@@ -1,36 +1,163 @@
-.cta-banner {
-  background: linear-gradient(90deg, #000, #333);
-  color: #fff;
-  text-align: center;
-  padding: 40px 20px;   /* reduced padding */
-  margin: 40px 0;       /* less vertical spacing */
-  border-radius: 8px;
+/* ─── CTA BANNER ──────────────────────────────────────────────────── */
+.nb-cta {
+  padding: 0 60px;
+  margin: 80px 0;
+  width: 100%;
+}
+
+.nb-cta__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  background: #0a0a0a;
+  border-radius: 0;
+  padding: 80px 60px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 40px;
   position: relative;
+  overflow: hidden;
 }
 
-.cta-content h2 {
-  font-size: 1.8rem;    /* smaller heading */
-  margin-bottom: 10px;
+.nb-cta__text {
+  position: relative;
+  z-index: 2;
 }
 
-.cta-content p {
+.nb-cta__label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  color: #cc0000;
+  margin-bottom: 16px;
+}
+
+.nb-cta__title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  line-height: 0.95;
+  margin-bottom: 16px;
+}
+
+.nb-cta__sub {
   font-size: 1rem;
-  margin-bottom: 15px;
-  color: #ddd;
+  color: #999;
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 420px;
 }
 
-.cta-btn {
-  background: #e53935;
-  color: #fff;
-  padding: 8px 18px;    /* slimmer button */
-  border: none;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+.nb-cta__btn {
+  display: inline-block;
+  padding: 14px 36px;
+  background: #ffffff;
+  color: #0a0a0a;
+  font-family: 'Archivo', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid #ffffff;
+  transition: all 0.3s ease;
 }
 
-.cta-btn:hover {
-  background: #c62828;
-  transform: scale(1.05);
+.nb-cta__btn:hover {
+  background: transparent;
+  color: #ffffff;
+}
+
+.nb-cta__decoration {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nb-cta__circle {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 2px solid rgba(204, 0, 0, 0.3);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.1); opacity: 0.6; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .nb-cta {
+    padding: 0 40px;
+    margin: 60px 0;
+  }
+
+  .nb-cta__inner {
+    padding: 60px 40px;
+  }
+
+  .nb-cta__decoration {
+    width: 200px;
+    height: 200px;
+  }
+
+  .nb-cta__circle {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nb-cta {
+    padding: 0 20px;
+    margin: 50px 0;
+  }
+
+  .nb-cta__inner {
+    grid-template-columns: 1fr;
+    padding: 50px 30px;
+    text-align: center;
+  }
+
+  .nb-cta__sub {
+    margin: 0 auto 28px;
+  }
+
+  .nb-cta__decoration {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .nb-cta {
+    padding: 0 16px;
+    margin: 40px 0;
+  }
+
+  .nb-cta__inner {
+    padding: 40px 24px;
+  }
+
+  .nb-cta__title {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .nb-cta__sub {
+    font-size: 0.9rem;
+  }
+
+  .nb-cta__btn {
+    padding: 12px 28px;
+    font-size: 0.78rem;
+  }
 }

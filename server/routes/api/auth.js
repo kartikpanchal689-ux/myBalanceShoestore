@@ -16,9 +16,9 @@ const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString()
 async function sendOtpEmail(email, otp) {
   return new Promise((resolve) => {
     const data = JSON.stringify({
-      sender: { name: "myBalance Shoestore", email: "kartikpanchal689@gmail.com" },
+      sender: { name: "MyBalance", email: "kartikpanchal689@gmail.com" },
       to: [{ email: email }],
-      subject: "Your OTP Code - myBalance",
+      subject: "Your OTP Code - MyBalance",
       htmlContent: `
         <!DOCTYPE html>
         <html>
@@ -190,6 +190,55 @@ router.post("/verify-otp", async (req, res) => {
 // ---------------- PING TEST ROUTE ----------------
 router.post("/ping", (req, res) => {
   res.json({ success: true, message: "Ping route working" });
+});
+
+
+// ---------------- SEND ORDER RECEIPT EMAIL ----------------
+router.post("/send-receipt", async (req, res) => {
+  const { email, html, orderId } = req.body;
+
+  if (!email || !html) {
+    return res.status(400).json({ success: false, message: "Email and html are required" });
+  }
+
+  const data = JSON.stringify({
+    sender: { name: "myBalance Shoestore", email: "kartikpanchal689@gmail.com" },
+    to: [{ email }],
+    subject: `Order Confirmation - ${orderId} | myBalance`,
+    htmlContent: html
+  });
+
+  const options = {
+    hostname: "api.brevo.com",
+    path: "/v3/smtp/email",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": process.env.BREVO_API_KEY
+    }
+  };
+
+  const request = https.request(options, (response) => {
+    let body = "";
+    response.on("data", (chunk) => body += chunk);
+    response.on("end", () => {
+      if (response.statusCode === 201) {
+        console.log(`✅ Receipt email sent to ${email}`);
+        return res.status(200).json({ success: true });
+      } else {
+        console.error(`❌ Receipt email failed: ${body}`);
+        return res.status(500).json({ success: false });
+      }
+    });
+  });
+
+  request.on("error", (err) => {
+    console.error("Receipt email error:", err.message);
+    return res.status(500).json({ success: false });
+  });
+
+  request.write(data);
+  request.end();
 });
 
 module.exports = router;

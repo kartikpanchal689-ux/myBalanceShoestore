@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 const User = require("../../models/user");
 const router = express.Router();
 
@@ -13,77 +13,59 @@ const otpStore = {};
 const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
 
 // ============ EMAIL SETUP ============
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'kartikpanchal689@gmail.com',
-    pass: 'wtozlmcendubxsag'
-  }
-});
-
-// Verify transporter connection on startup
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('❌ Transporter verify failed:', error.message);
-  } else {
-    console.log('✅ Mail server is ready');
-  }
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Function to send OTP email
 async function sendOtpEmail(email, otp) {
-  const mailOptions = {
-    from: '"kartikpanchal689" <kartikpanchal689@gmail.com>',
-    to: email,
-    subject: 'Your OTP Code - myBalance',
-    html: `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style>
-          body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
-          .container { background: white; max-width: 600px; margin: 0 auto; padding: 40px; border-radius: 8px; }
-          .header { text-align: center; margin-bottom: 30px; }
-          .logo { font-size: 24px; font-weight: bold; color: #cc0000; }
-          .otp-box { background: #f7f7f5; padding: 20px; text-align: center; border-radius: 8px; margin: 30px 0; }
-          .otp-code { font-size: 36px; font-weight: bold; color: #0a0a0a; letter-spacing: 8px; }
-          .footer { text-align: center; margin-top: 30px; color: #666; font-size: 14px; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <div class="logo">myBalance</div>
-            <p style="color: #666;">Your One-Time Password</p>
-          </div>
-          
-          <p>Hello,</p>
-          <p>You requested to log in to your myBalance account. Use the OTP below to proceed:</p>
-          
-          <div class="otp-box">
-            <div class="otp-code">${otp}</div>
-          </div>
-          
-          <p><strong>This OTP is valid for 10 minutes.</strong></p>
-          <p>If you didn't request this, please ignore this email.</p>
-          
-          <div class="footer">
-            <p>© 2025 myBalance Shoestore. All rights reserved.</p>
-            <p>Need help? Contact us at support@mybalance.com</p>
-          </div>
-        </div>
-      </body>
-      </html>
-    `
-  };
-
   try {
-    await transporter.sendMail(mailOptions);
+    await resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: email,
+      subject: 'Your OTP Code - myBalance',
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+            .container { background: white; max-width: 600px; margin: 0 auto; padding: 40px; border-radius: 8px; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { font-size: 24px; font-weight: bold; color: #cc0000; }
+            .otp-box { background: #f7f7f5; padding: 20px; text-align: center; border-radius: 8px; margin: 30px 0; }
+            .otp-code { font-size: 36px; font-weight: bold; color: #0a0a0a; letter-spacing: 8px; }
+            .footer { text-align: center; margin-top: 30px; color: #666; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <div class="logo">myBalance</div>
+              <p style="color: #666;">Your One-Time Password</p>
+            </div>
+            
+            <p>Hello,</p>
+            <p>You requested to log in to your myBalance account. Use the OTP below to proceed:</p>
+            
+            <div class="otp-box">
+              <div class="otp-code">${otp}</div>
+            </div>
+            
+            <p><strong>This OTP is valid for 10 minutes.</strong></p>
+            <p>If you didn't request this, please ignore this email.</p>
+            
+            <div class="footer">
+              <p>© 2025 myBalance Shoestore. All rights reserved.</p>
+              <p>Need help? Contact us at support@mybalance.com</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `
+    });
     console.log(`✅ OTP email sent to ${email}`);
     return true;
   } catch (error) {
     console.error('❌ Email sending failed:', error.message);
-    console.error('Full error:', JSON.stringify(error));
     return false;
   }
 }

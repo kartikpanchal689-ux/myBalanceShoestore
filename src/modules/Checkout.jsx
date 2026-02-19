@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Checkout.css";
 
@@ -9,10 +9,34 @@ const REFERRAL_CODES = {
   "SAVE15": 15,
 };
 
-function Checkout() {
+function generateOrderId() {
+  return "MYB" + Date.now().toString().slice(-8).toUpperCase();
+}
+
+function generateTrackingId() {
+  return "TRK" + Math.random().toString(36).substring(2, 10).toUpperCase();
+}
+
+function Checkout({ setCartItems }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { items = [], total = 0 } = location.state || {};
+
+  // Load from localStorage on refresh if location.state is gone
+  const getInitialData = () => {
+    if (location.state?.items?.length > 0) {
+      localStorage.setItem("checkoutData", JSON.stringify({
+        items: location.state.items,
+        total: location.state.total
+      }));
+      return { items: location.state.items, total: location.state.total };
+    }
+    try {
+      const saved = localStorage.getItem("checkoutData");
+      return saved ? JSON.parse(saved) : { items: [], total: 0 };
+    } catch { return { items: [], total: 0 }; }
+  };
+
+  const { items, total } = getInitialData();
 
   const [paymentMethod, setPaymentMethod] = useState("upi");
   const [referralCode, setReferralCode] = useState("");
@@ -24,8 +48,9 @@ function Checkout() {
   const [cardExpiry, setCardExpiry] = useState("");
   const [cardCvv, setCardCvv] = useState("");
   const [cardName, setCardName] = useState("");
-  const [orderPlaced, setOrderPlaced] = useState(false);
   const [address, setAddress] = useState("");
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
 
   const discountAmount = (total * referralDiscount) / 100;
   const finalTotal = total - discountAmount;
@@ -43,6 +68,38 @@ function Checkout() {
     }
   };
 
+  const removeCheckedOutItemsFromCart = () => {
+    if (!setCartItems) return;
+    const checkedOutIds = items.map(i => i.id);
+    setCartItems(prev => {
+      const updated = prev.filter(item => !checkedOutIds.includes(item.id));
+      localStorage.setItem("cartItems", JSON.stringify(updated));
+      return updated;
+    });
+    localStorage.removeItem("checkoutData");
+  };
+
+  const placeOrder = () => {
+    const orderId = generateOrderId();
+    const trackingId = generateTrackingId();
+    const estimatedDelivery = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)
+      .toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+
+    const details = {
+      orderId,
+      trackingId,
+      estimatedDelivery,
+      items,
+      total: finalTotal,
+      paymentMethod,
+      address,
+    };
+
+    setOrderDetails(details);
+    setOrderPlaced(true);
+    removeCheckedOutItemsFromCart();
+  };
+
   const handlePayment = () => {
     if (!address.trim()) {
       alert("Please enter your delivery address.");
@@ -54,32 +111,71 @@ function Checkout() {
         alert("Please enter your UPI ID.");
         return;
       }
-      // Redirect to UPI payment link
       const upiLink = `upi://pay?pa=kartikpanchal689@oksbi&pn=myBalance%20Shoestore&am=${finalTotal.toFixed(2)}&cu=INR&tn=myBalance%20Order`;
       window.location.href = upiLink;
-      setOrderPlaced(true);
+      setTimeout(() => placeOrder(), 2000);
     } else if (paymentMethod === "card") {
       if (!cardNumber || !cardExpiry || !cardCvv || !cardName) {
         alert("Please fill in all card details.");
         return;
       }
-      // Simulate card payment
-      setOrderPlaced(true);
+      placeOrder();
     } else if (paymentMethod === "cod") {
-      setOrderPlaced(true);
+      placeOrder();
     }
   };
 
-  if (orderPlaced) {
+  if (orderPlaced && orderDetails) {
     return (
       <div className="checkout-page">
         <div className="checkout-success">
           <div className="success-icon">✓</div>
           <h2>Order Placed!</h2>
-          <p>Thank you for shopping with myBalance.</p>
-          {paymentMethod === "cod" && <p>Pay <strong>₹{finalTotal.toFixed(2)}</strong> on delivery.</p>}
+          <p className="success-sub">Thank you for shopping with myBalance 🎉</p>
+
+          <div className="order-tracking-card">
+            <div className="tracking-row">
+              <span className="tracking-label">Order ID</span>
+              <span className="tracking-value">{orderDetails.orderId}</span>
+            </div>
+            <div className="tracking-row">
+              <span className="tracking-label">Tracking ID</span>
+              <span className="tracking-value">{orderDetails.trackingId}</span>
+            </div>
+            <div className="tracking-row">
+              <span className="tracking-label">Estimated Delivery</span>
+              <span className="tracking-value">{orderDetails.estimatedDelivery}</span>
+            </div>
+            <div className="tracking-row">
+              <span className="tracking-label">Payment</span>
+              <span className="tracking-value">
+                {orderDetails.paymentMethod === "cod" ? "Cash on Delivery" :
+                 orderDetails.paymentMethod === "upi" ? "UPI" : "Card"}
+              </span>
+            </div>
+            <div className="tracking-row">
+              <span className="tracking-label">Amount Paid</span>
+              <span className="tracking-value">₹{orderDetails.total.toFixed(2)}</span>
+            </div>
+          </div>
+
+          <div className="ordered-items">
+            <h4>Items Ordered</h4>
+            {orderDetails.items.map((item, i) => (
+              <div className="ordered-item" key={i}>
+                <span>{item.name} × {item.quantity || 1}</span>
+                <span>₹{(item.price * (item.quantity || 1)).toFixed(2)}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="success-address">
+            <span>📦 Delivering to:</span>
+            <p>{orderDetails.address}</p>
+          </div>
+
           <button className="checkout-btn" onClick={() => navigate("/")}>
-            Back to Home
+            Continue Shopping
           </button>
         </div>
       </div>
@@ -149,7 +245,6 @@ function Checkout() {
                 </label>
               </div>
 
-              {/* UPI Fields */}
               {paymentMethod === "upi" && (
                 <div className="payment-fields">
                   <input
@@ -163,7 +258,6 @@ function Checkout() {
                 </div>
               )}
 
-              {/* Card Fields */}
               {paymentMethod === "card" && (
                 <div className="payment-fields">
                   <input className="checkout-input" type="text" placeholder="Cardholder Name" value={cardName} onChange={(e) => setCardName(e.target.value)} />
@@ -175,7 +269,6 @@ function Checkout() {
                 </div>
               )}
 
-              {/* COD */}
               {paymentMethod === "cod" && (
                 <div className="payment-fields">
                   <p className="payment-note">Pay with cash when your order is delivered. Extra ₹50 COD charge may apply.</p>
@@ -192,24 +285,24 @@ function Checkout() {
                 {items.map((item, index) => (
                   <div className="summary-item" key={index}>
                     <span>{item.name} × {item.quantity || 1}</span>
-                    <span>${(item.price * (item.quantity || 1)).toFixed(2)}</span>
+                    <span>₹{(item.price * (item.quantity || 1)).toFixed(2)}</span>
                   </div>
                 ))}
               </div>
               <div className="summary-divider" />
               <div className="summary-row">
                 <span>Subtotal</span>
-                <span>${total.toFixed(2)}</span>
+                <span>₹{total.toFixed(2)}</span>
               </div>
               {referralApplied && (
                 <div className="summary-row discount">
                   <span>Discount ({referralDiscount}%)</span>
-                  <span>− ${discountAmount.toFixed(2)}</span>
+                  <span>− ₹{discountAmount.toFixed(2)}</span>
                 </div>
               )}
               <div className="summary-row total">
                 <span>Total</span>
-                <span>${finalTotal.toFixed(2)}</span>
+                <span>₹{finalTotal.toFixed(2)}</span>
               </div>
               <button className="checkout-btn" onClick={handlePayment}>
                 {paymentMethod === "cod" ? "Place Order" : "Pay Now"} →

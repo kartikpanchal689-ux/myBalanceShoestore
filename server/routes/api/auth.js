@@ -4,6 +4,8 @@ const nodemailer = require("nodemailer");
 const User = require("../../models/user");
 const router = express.Router();
 
+console.log('🔥 AUTH ROUTE FILE LOADED');
+
 // Temporary OTP store (for demo; use Redis/DB in production)
 const otpStore = {};
 

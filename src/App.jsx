@@ -101,7 +101,9 @@ function App() {
   useEffect(() => {
   const userEmail = localStorage.getItem('userEmail');
   if (isLoggedIn && userEmail) {
-    getSocket(userEmail);
+    getSocket(userEmail, (event) => {
+      console.log('Sync event received:', event);
+    });
   } else {
     disconnectSocket();
   }

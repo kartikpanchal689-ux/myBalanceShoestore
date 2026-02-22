@@ -1,21 +1,24 @@
-import { io } from "socket.io-client";
+const SERVER_URL = "https://mybalanceshoestore.onrender.com";
+let eventSource = null;
 
-let socket;
+export function getSocket(userId, onEvent) {
+  if (eventSource) eventSource.close();
 
-export function getSocket(userId) {
-  if (!socket) {
-    socket = io("https://mybalanceshoestore.onrender.com", {
-      path: "/ws",
-      transports: ["polling"],
-      auth: { userId }
-    });
-  }
-  return socket;
+  eventSource = new EventSource(`${SERVER_URL}/api/sync/${userId}`);
+
+  eventSource.onmessage = (e) => {
+    const event = JSON.parse(e.data);
+    onEvent(event);
+  };
+
+  eventSource.onerror = () => {
+    console.log("SSE connection error, retrying...");
+  };
 }
 
 export function disconnectSocket() {
-  if (socket) {
-    socket.disconnect();
-    socket = null;
+  if (eventSource) {
+    eventSource.close();
+    eventSource = null;
   }
 }

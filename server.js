@@ -46,6 +46,13 @@ app.post("/api/register", async (req, res) => {
 const sseClients = {};
 global.sseClients = sseClients;
 
+global.emitToUser = (userId, event) => {
+  const clients = sseClients[userId] || [];
+  clients.forEach(client => {
+    client.write(`data: ${JSON.stringify(event)}\n\n`);
+  });
+};
+
 // SSE endpoint
 app.get("/api/sync/:userId", (req, res) => {
   const userId = req.params.userId;

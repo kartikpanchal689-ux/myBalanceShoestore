@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const User = require("./server/models/user");
 const authRoutes = require("./server/routes/api/auth");
+const orderRoutes = require("./server/routes/api/orders");
 
 const app = express();
 const server = http.createServer(app);
@@ -22,6 +23,7 @@ app.get("/api/test", (req, res) => {
 });
 
 app.use("/api", authRoutes);
+app.use("/api", orderRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))

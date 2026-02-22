@@ -1,11 +1,14 @@
 require("dotenv").config();
 const express = require("express");
+const http = require("http");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const User = require("./server/models/user");
 const authRoutes = require("./server/routes/api/auth");
 
 const app = express();
+const server = http.createServer(app);
+
 app.use(cors({
   origin: [
     "https://kartikpanchal689-ux.github.io",
@@ -14,10 +17,12 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// ✅ Mount all login routes
+app.get("/api/test", (req, res) => {
+  res.json({ success: true, message: "Server is working" });
+});
+
 app.use("/api", authRoutes);
 
-// ✅ Connect to MongoDB Atlas
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))
   .catch(err => console.error("❌ MongoDB connection error:", err));
@@ -26,7 +31,6 @@ mongoose.connection.on("connected", () => {
   console.log("🔍 Connected to DB:", mongoose.connection.name);
 });
 
-// ------------------- REGISTER -------------------
 app.post("/api/register", async (req, res) => {
   const { name, email, phone, password } = req.body;
   try {
@@ -38,6 +42,28 @@ app.post("/api/register", async (req, res) => {
   }
 });
 
-// ✅ Use Render's dynamic port
+// SSE clients store
+const sseClients = {};
+global.sseClients = sseClients;
+
+// SSE endpoint
+app.get("/api/sync/:userId", (req, res) => {
+  const userId = req.params.userId;
+
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.flushHeaders();
+
+  if (!sseClients[userId]) sseClients[userId] = [];
+  sseClients[userId].push(res);
+  console.log(`✅ SSE connected for user: ${userId}`);
+
+  req.on("close", () => {
+    sseClients[userId] = sseClients[userId].filter(client => client !== res);
+    console.log(`❌ SSE disconnected for user: ${userId}`);
+  });
+});
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

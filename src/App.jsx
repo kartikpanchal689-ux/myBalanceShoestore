@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { getSocket, disconnectSocket } from './socket';
 import MainHeader from './modules/MainHeader';
 import HeroSlider from './modules/HeroSlider';
 import Category from './modules/Category';
@@ -18,6 +19,7 @@ import Checkout from './modules/Checkout';
 import Login from './modules/Login';
 import Register from './modules/Register';
 import ProductsPage from './modules/ProductsPage';
+import Orders from './modules/Orders'; // ← ADDED
 import { shopNowProducts, gridProducts } from './data/products';
 
 
@@ -47,17 +49,14 @@ function App() {
     } catch { return []; }
   });
 
-  // Persist cartItems to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // Persist recentlyViewed to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('recentlyViewed', JSON.stringify(recentlyViewed));
   }, [recentlyViewed]);
 
-  // Persist searchHistory to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
   }, [searchHistory]);
@@ -82,7 +81,7 @@ function App() {
   const addToRecentlyViewed = (product) => {
     setRecentlyViewed(prev => {
       const filtered = prev.filter(p => p.id !== product.id);
-      return [product, ...filtered].slice(0, 10); // keep last 10
+      return [product, ...filtered].slice(0, 10);
     });
   };
 
@@ -90,7 +89,7 @@ function App() {
     if (!query.trim()) return;
     setSearchHistory(prev => {
       const filtered = prev.filter(q => q !== query);
-      return [query, ...filtered].slice(0, 10); // keep last 10
+      return [query, ...filtered].slice(0, 10);
     });
   };
 
@@ -98,6 +97,15 @@ function App() {
     setIsLoggedIn(false);
     localStorage.removeItem('isLoggedIn');
   };
+
+  useEffect(() => {
+  const userEmail = localStorage.getItem('userEmail');
+  if (isLoggedIn && userEmail) {
+    getSocket(userEmail);
+  } else {
+    disconnectSocket();
+  }
+}, [isLoggedIn]);
 
   return (
     <div>
@@ -123,48 +131,21 @@ function App() {
           }
         />
 
-        <Route
-          path="/products"
-          element={<ProductsPage addToCart={addToCart} />}
-        />
-
-        <Route
-          path="/category/:category"
-          element={<CategoryPage addToCart={addToCart} />}
-        />
-        <Route
-          path="/product/:id"
-          element={<ProductDetail addToCart={addToCart} addToRecentlyViewed={addToRecentlyViewed} />}
-        />
-        <Route
-          path="/search"
-          element={<SearchResults addToCart={addToCart} addToSearchHistory={addToSearchHistory} searchHistory={searchHistory} />}
-        />
-        <Route
-          path="/cart"
-          element={<Cart items={cartItems} setItems={setCartItems} />}
-        />
-        <Route
-          path="/checkout"
-          element={<Checkout total={total} items={cartItems} />}
-        />
-        <Route
-          path="/login"
-          element={<Login setIsLoggedIn={setIsLoggedIn} />}
-        />
-        <Route
-          path="/register"
-          element={<Register />}
-        />
-        <Route
-         path="/about" 
-         element={<About />} />
-        <Route
-         path="/contact" 
-         element={<Contact />} />
+        <Route path="/products" element={<ProductsPage addToCart={addToCart} />} />
+        <Route path="/category/:category" element={<CategoryPage addToCart={addToCart} />} />
+        <Route path="/product/:id" element={<ProductDetail addToCart={addToCart} addToRecentlyViewed={addToRecentlyViewed} />} />
+        <Route path="/search" element={<SearchResults addToCart={addToCart} addToSearchHistory={addToSearchHistory} searchHistory={searchHistory} />} />
+        <Route path="/cart" element={<Cart items={cartItems} setItems={setCartItems} />} />
+        <Route path="/checkout" element={<Checkout total={total} items={cartItems} setCartItems={setCartItems} />} /> {/* ← ADDED setCartItems */}
+        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/orders" element={<Orders />} /> {/* ← ADDED */}
       </Routes>
     </div>
   );
 }
 
 export default App;
+

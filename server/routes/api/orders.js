@@ -69,4 +69,30 @@ router.patch("/cancel-order/:orderId", async (req, res) => {
   }
 });
 
+// Update order status (admin only)
+router.patch("/update-status/:orderId", async (req, res) => {
+  try {
+    const { status } = req.body;
+    const order = await Order.findOneAndUpdate(
+      { orderId: req.params.orderId },
+      { status },
+      { new: true }
+    );
+
+    if (!order) {
+      return res.json({ success: false, message: "Order not found" });
+    }
+
+    // Notify all tabs of this user via SSE
+    global.emitToUser(order.userEmail, {
+      type: "ORDER_STATUS_UPDATED",
+      payload: order
+    });
+
+    res.json({ success: true, order });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
+  }
+});
+
 module.exports = router;

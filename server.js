@@ -66,11 +66,17 @@ app.get("/api/sync/:userId", (req, res) => {
   res.setHeader("Connection", "keep-alive");
   res.flushHeaders();
 
+  // Heartbeat to keep connection alive on Render
+  const heartbeat = setInterval(() => {
+    res.write(`: heartbeat\n\n`);
+  }, 20000);
+
   if (!sseClients[userId]) sseClients[userId] = [];
   sseClients[userId].push(res);
   console.log(`✅ SSE connected for user: ${userId}`);
 
   req.on("close", () => {
+    clearInterval(heartbeat);
     sseClients[userId] = sseClients[userId].filter(client => client !== res);
     console.log(`❌ SSE disconnected for user: ${userId}`);
   });

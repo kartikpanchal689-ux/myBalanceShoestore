@@ -102,8 +102,11 @@ function App() {
   const userEmail = localStorage.getItem('userEmail');
   if (isLoggedIn && userEmail) {
     getSocket(userEmail, (event) => {
-      console.log('Sync event received:', event);
-    });
+  console.log('Sync event received:', event);
+  if (event.type === 'ORDER_PLACED') {
+    window.dispatchEvent(new CustomEvent('ordersUpdated'));
+  }
+});
   } else {
     disconnectSocket();
   }

@@ -1,15 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Orders.css";
 
 function Orders() {
   const navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const orders = (() => {
+  const fetchOrders = async () => {
+    const userEmail = localStorage.getItem("userEmail");
+    if (!userEmail) { setLoading(false); return; }
     try {
-      return JSON.parse(localStorage.getItem("myOrders") || "[]");
-    } catch { return []; }
-  })();
+      const res = await fetch(`https://mybalanceshoestore.onrender.com/api/my-orders/${userEmail}`);
+      const data = await res.json();
+      if (data.success) setOrders(data.orders);
+    } catch (err) {
+      console.error("Failed to fetch orders:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+    window.addEventListener("ordersUpdated", fetchOrders);
+    return () => window.removeEventListener("ordersUpdated", fetchOrders);
+  }, []);
 
   return (
     <div className="orders-page">
@@ -17,7 +33,9 @@ function Orders() {
         <button className="orders-back" onClick={() => navigate(-1)}>← Back</button>
         <h2 className="orders-title">My Orders</h2>
 
-        {orders.length === 0 ? (
+        {loading ? (
+          <div className="orders-empty"><p>Loading orders...</p></div>
+        ) : orders.length === 0 ? (
           <div className="orders-empty">
             <p>📦 No orders yet</p>
             <button className="orders-shop-btn" onClick={() => navigate("/products")}>
@@ -26,7 +44,7 @@ function Orders() {
           </div>
         ) : (
           <div className="orders-list">
-            {orders.slice().reverse().map((order, index) => (
+            {orders.map((order, index) => (
               <div className="order-card" key={index}>
                 <div className="order-card-header">
                   <div>

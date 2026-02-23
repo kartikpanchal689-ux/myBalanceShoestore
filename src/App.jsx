@@ -81,6 +81,28 @@ useEffect(() => {
     .catch(err => console.error("Failed to load cart:", err));
 }, [isLoggedIn]);
 
+    // Poll cart from DB every 5 seconds
+useEffect(() => {
+  const userEmail = localStorage.getItem('userEmail');
+  if (!userEmail || !isLoggedIn) return;
+
+  const interval = setInterval(async () => {
+    try {
+      const res = await fetch(`https://mybalanceshoestore.onrender.com/api/cart/${userEmail}`);
+      const data = await res.json();
+      if (data.success && JSON.stringify(data.items) !== JSON.stringify(cartItems)) {
+        setCartItems(data.items);
+        localStorage.setItem('cartItems', JSON.stringify(data.items));
+      }
+    } catch (err) {
+      console.error("Cart poll failed:", err);
+    }
+  }, 5000);
+
+  return () => clearInterval(interval);
+}, [isLoggedIn]);
+
+
   useEffect(() => {
     localStorage.setItem('recentlyViewed', JSON.stringify(recentlyViewed));
   }, [recentlyViewed]);

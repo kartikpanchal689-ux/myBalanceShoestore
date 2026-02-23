@@ -86,10 +86,25 @@ function Orders() {
                     </strong>
                   </div>
                   <div className="order-total-row">
-                    <span>Total Paid</span>
-                    <strong>₹{(order.total || 0).toFixed(2)}</strong>
+  <span>Total Paid</span>
+  <strong>₹{(order.total || 0).toFixed(2)}</strong>
+</div>
+{order.status !== "Cancelled" && (
+  <button
+    className="order-cancel-btn"
+    onClick={async () => {
+      if (!window.confirm("Are you sure you want to cancel this order?")) return;
+      const res = await fetch(`https://mybalanceshoestore.onrender.com/api/cancel-order/${order.orderId}`, {
+        method: "PATCH"
+      });
+      const data = await res.json();
+      if (data.success) fetchOrders();
+    }}
+  >
+    Cancel Order
+  </button>
+)}
                   </div>
-                </div>
               </div>
             ))}
           </div>

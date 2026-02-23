@@ -103,9 +103,9 @@ function App() {
   if (isLoggedIn && userEmail) {
     getSocket(userEmail, (event) => {
   console.log('Sync event received:', event);
-  if (event.type === 'ORDER_PLACED') {
-    window.dispatchEvent(new CustomEvent('ordersUpdated'));
-  }
+  if (event.type === 'ORDER_PLACED' || event.type === 'ORDER_CANCELLED') {
+  window.dispatchEvent(new CustomEvent('ordersUpdated'));
+}
 });
   } else {
     disconnectSocket();

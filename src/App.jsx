@@ -21,6 +21,7 @@ import Register from './modules/Register';
 import ProductsPage from './modules/ProductsPage';
 import Orders from './modules/Orders';
 import { shopNowProducts, gridProducts } from './data/products';
+import Admin from './modules/Admin';
 
 
 function App() {
@@ -147,6 +148,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/admin/*" element={<Admin />} />
       </Routes>
     </div>
   );

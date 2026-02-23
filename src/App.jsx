@@ -87,6 +87,8 @@ useEffect(() => {
   if (!userEmail || !isLoggedIn) return;
 
   const interval = setInterval(async () => {
+    // Don't poll if a cart sync is pending
+    if (cartSyncTimer.current) return;
     try {
       const res = await fetch(`https://mybalanceshoestore.onrender.com/api/cart/${userEmail}`);
       const data = await res.json();

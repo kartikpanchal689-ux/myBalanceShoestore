@@ -61,7 +61,7 @@ function App() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items: cartItems })
     }).catch(err => console.error("Cart sync failed:", err));
-  }, 800);
+  }, 2000);
 }, [cartItems]);
 
   const cartSyncTimer = useRef(null);
@@ -87,12 +87,13 @@ useEffect(() => {
   if (!userEmail || !isLoggedIn) return;
 
   const interval = setInterval(async () => {
-    // Don't poll if a cart sync is pending
-    if (cartSyncTimer.current) return;
+    if (cartSyncTimer.current) return; // skip if save is pending
     try {
       const res = await fetch(`https://mybalanceshoestore.onrender.com/api/cart/${userEmail}`);
       const data = await res.json();
-      if (data.success && JSON.stringify(data.items) !== JSON.stringify(cartItems)) {
+      const localCart = JSON.stringify(cartItems);
+      const remoteCart = JSON.stringify(data.items);
+      if (data.success && remoteCart !== localCart && data.items.length >= cartItems.length) {
         setCartItems(data.items);
         localStorage.setItem('cartItems', JSON.stringify(data.items));
       }
@@ -103,7 +104,6 @@ useEffect(() => {
 
   return () => clearInterval(interval);
 }, [isLoggedIn]);
-
 
   useEffect(() => {
     localStorage.setItem('recentlyViewed', JSON.stringify(recentlyViewed));

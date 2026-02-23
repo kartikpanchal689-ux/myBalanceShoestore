@@ -44,4 +44,29 @@ router.get("/my-orders/:userEmail", async (req, res) => {
   }
 });
 
+// Cancel an order
+router.patch("/cancel-order/:orderId", async (req, res) => {
+  try {
+    const order = await Order.findOneAndUpdate(
+      { orderId: req.params.orderId },
+      { status: "Cancelled" },
+      { new: true }
+    );
+
+    if (!order) {
+      return res.json({ success: false, message: "Order not found" });
+    }
+
+    // Notify all tabs of this user via SSE
+    global.emitToUser(order.userEmail, {
+      type: "ORDER_CANCELLED",
+      payload: order
+    });
+
+    res.json({ success: true, order });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
+  }
+});
+
 module.exports = router;

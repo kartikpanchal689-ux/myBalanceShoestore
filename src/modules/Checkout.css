@@ -230,9 +230,9 @@
   background: #aa0000;
 }
 
-/* Success */
+/* ── SUCCESS SCREEN ── */
 .checkout-success {
-  max-width: 400px;
+  max-width: 480px;
   margin: 60px auto;
   text-align: center;
   background: white;
@@ -261,13 +261,112 @@
   color: #111;
 }
 
-.checkout-success p {
+.success-sub {
   color: #666;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
-.checkout-success .checkout-btn {
+.success-email-note {
+  color: #666;
+  font-size: 14px;
+  margin: 0 0 20px;
+}
+
+/* ── ORDER TRACKING CARD ── */
+.order-tracking-card {
+  background: #f7f7f7;
+  border-radius: 10px;
+  padding: 16px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.tracking-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.tracking-row:last-child {
+  border-bottom: none;
+}
+
+.tracking-label {
+  font-size: 13px;
+  color: #888;
+}
+
+.tracking-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111;
+}
+
+/* ── ORDERED ITEMS ── */
+.ordered-items {
+  text-align: left;
+  margin: 16px 0;
+}
+
+.ordered-items h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+.ordered-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #444;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* ── DELIVERY ADDRESS ── */
+.success-address {
+  text-align: left;
+  background: #f7f7f7;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 16px 0 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.success-address p {
+  margin: 6px 0 0;
+  font-weight: 600;
+  color: #111;
+}
+
+/* ── SUCCESS BUTTONS ── */
+.success-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   margin-top: 24px;
+  width: 100%;
+}
+
+.checkout-btn-outline {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: #cc0000;
+  border: 2px solid #cc0000;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.checkout-btn-outline:hover {
+  background: #cc0000;
+  color: white;
 }
 
 /* Responsive */
@@ -281,5 +380,9 @@
   }
   .payment-options {
     flex-direction: column;
+  }
+  .checkout-success {
+    margin: 30px 16px;
+    padding: 32px 20px;
   }
 }

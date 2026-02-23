@@ -8,13 +8,27 @@ export default function MainHeader({ cartCount, isLoggedIn, onLogout }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef(null);
+  const profileRef = useRef(null);
   const navigate = useNavigate();
+
+  const userEmail = localStorage.getItem('userEmail') || '';
 
   useEffect(() => {
     if (searchOpen && searchInputRef.current) {
       searchInputRef.current.focus();
     }
   }, [searchOpen]);
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -27,9 +41,14 @@ export default function MainHeader({ cartCount, isLoggedIn, onLogout }) {
 
   const toggleSearch = () => {
     setSearchOpen(!searchOpen);
-    if (searchOpen) {
-      setSearchQuery('');
-    }
+    if (searchOpen) setSearchQuery('');
+  };
+
+  const handleLogout = () => {
+    setProfileOpen(false);
+    localStorage.removeItem('userEmail');
+    onLogout();
+    navigate("/");
   };
 
   return (
@@ -82,17 +101,29 @@ export default function MainHeader({ cartCount, isLoggedIn, onLogout }) {
             <Link to="/cart">Cart ({cartCount})</Link>
             <Link to="/checkout">Checkout</Link>
 
-            <div className="profile-container">
+            <div className="profile-container" ref={profileRef}>
               <img
-                src="/images/profileimg.jpg"
+                src="/myBalanceShoestore/images/ProfilePic.png"
                 alt="Profile"
                 className="profile-icon"
                 onClick={() => setProfileOpen(!profileOpen)}
               />
               {profileOpen && (
                 <div className="profile-dropdown">
-                  <Link to="/settings">Settings</Link>
-                  <button onClick={onLogout}>Logout</button>
+                  <div className="dropdown-header">My Account</div>
+                  {userEmail && (
+                    <div className="dropdown-email">{userEmail}</div>
+                  )}
+                  <Link to="/settings" className="dropdown-item" onClick={() => setProfileOpen(false)}>
+                    Settings
+                  </Link>
+                  <Link to="/orders" className="dropdown-item" onClick={() => setProfileOpen(false)}>
+                    My Orders
+                  </Link>
+                  <div className="dropdown-divider" />
+                  <button className="dropdown-item dropdown-logout" onClick={handleLogout}>
+                    Logout
+                  </button>
                 </div>
               )}
             </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { getSocket, disconnectSocket } from './socket';
 import MainHeader from './modules/MainHeader';
@@ -50,8 +50,36 @@ function App() {
   });
 
   useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  }, [cartItems]);
+  localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  if (!isLoggedIn) return;
+  const userEmail = localStorage.getItem('userEmail');
+  if (!userEmail) return;
+  if (cartSyncTimer.current) clearTimeout(cartSyncTimer.current);
+  cartSyncTimer.current = setTimeout(() => {
+    fetch(`https://mybalanceshoestore.onrender.com/api/cart/${userEmail}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: cartItems })
+    }).catch(err => console.error("Cart sync failed:", err));
+  }, 800);
+}, [cartItems]);
+
+  const cartSyncTimer = useRef(null);
+
+// Load cart from DB on login
+useEffect(() => {
+  const userEmail = localStorage.getItem('userEmail');
+  if (!userEmail || !isLoggedIn) return;
+  fetch(`https://mybalanceshoestore.onrender.com/api/cart/${userEmail}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.success && data.items.length > 0) {
+        setCartItems(data.items);
+        localStorage.setItem('cartItems', JSON.stringify(data.items));
+      }
+    })
+    .catch(err => console.error("Failed to load cart:", err));
+}, [isLoggedIn]);
 
   useEffect(() => {
     localStorage.setItem('recentlyViewed', JSON.stringify(recentlyViewed));
@@ -106,6 +134,10 @@ function App() {
   if (event.type === 'ORDER_PLACED' || event.type === 'ORDER_CANCELLED') {
   window.dispatchEvent(new CustomEvent('ordersUpdated'));
 }
+  if (event.type === 'CART_UPDATED') {
+    setCartItems(event.payload);
+    localStorage.setItem('cartItems', JSON.stringify(event.payload));
+  }
 });
   } else {
     disconnectSocket();

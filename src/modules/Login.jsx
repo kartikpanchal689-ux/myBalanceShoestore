@@ -28,6 +28,8 @@ function Login({ setIsLoggedIn }) {
   .then((res) => res.json())
   .then((data) => {
     if (data.success) {
+      localStorage.setItem('userEmail', emailOrPhone);
+      localStorage.setItem('isLoggedIn', 'true');
       setIsLoggedIn(true);
       navigate("/");
     } else {
@@ -79,6 +81,8 @@ const sendOtp = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
+          localStorage.setItem('userEmail', emailOrPhone);
+          localStorage.setItem('isLoggedIn', 'true');
           setIsLoggedIn(true);
           navigate("/");
         } else {
@@ -90,6 +94,7 @@ const sendOtp = () => {
 
   const handleGoogleLogin = () => {
     alert("Signed in with Google!");
+    localStorage.setItem('isLoggedIn', 'true');
     setIsLoggedIn(true);
     navigate("/");
   };

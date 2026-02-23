@@ -61,7 +61,7 @@ function App() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items: cartItems })
     }).catch(err => console.error("Cart sync failed:", err));
-  }, 2000);
+  }, 800);
 }, [cartItems]);
 
   const cartSyncTimer = useRef(null);
@@ -82,28 +82,7 @@ useEffect(() => {
 }, [isLoggedIn]);
 
     // Poll cart from DB every 5 seconds
-useEffect(() => {
-  const userEmail = localStorage.getItem('userEmail');
-  if (!userEmail || !isLoggedIn) return;
 
-  const interval = setInterval(async () => {
-    if (cartSyncTimer.current) return; // skip if save is pending
-    try {
-      const res = await fetch(`https://mybalanceshoestore.onrender.com/api/cart/${userEmail}`);
-      const data = await res.json();
-      const localCart = JSON.stringify(cartItems);
-      const remoteCart = JSON.stringify(data.items);
-      if (data.success && remoteCart !== localCart && data.items.length >= cartItems.length) {
-        setCartItems(data.items);
-        localStorage.setItem('cartItems', JSON.stringify(data.items));
-      }
-    } catch (err) {
-      console.error("Cart poll failed:", err);
-    }
-  }, 5000);
-
-  return () => clearInterval(interval);
-}, [isLoggedIn]);
 
   useEffect(() => {
     localStorage.setItem('recentlyViewed', JSON.stringify(recentlyViewed));

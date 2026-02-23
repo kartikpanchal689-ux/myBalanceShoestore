@@ -104,7 +104,7 @@ function App() {
     if (isLoggedIn && userEmail) {
       getSocket(userEmail, (event) => {
         console.log('Sync event received:', event);
-        if (event.type === 'ORDER_PLACED' || event.type === 'ORDER_CANCELLED') {
+        if (event.type === 'ORDER_PLACED' || event.type === 'ORDER_CANCELLED' || event.type === 'ORDER_STATUS_UPDATED') {
           window.dispatchEvent(new CustomEvent('ordersUpdated'));
         }
       });
@@ -148,7 +148,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/admin/*" element={<Admin />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </div>
   );

@@ -137,10 +137,6 @@ useEffect(() => {
   if (event.type === 'ORDER_PLACED' || event.type === 'ORDER_CANCELLED') {
   window.dispatchEvent(new CustomEvent('ordersUpdated'));
 }
-  if (event.type === 'CART_UPDATED') {
-    setCartItems(event.payload);
-    localStorage.setItem('cartItems', JSON.stringify(event.payload));
-  }
 });
   } else {
     disconnectSocket();

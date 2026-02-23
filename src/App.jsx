@@ -67,9 +67,13 @@ function App() {
   const cartSyncTimer = useRef(null);
 
 // Load cart from DB on login
+const cartLoaded = useRef(false);
+
+// Load cart from DB on login - only once
 useEffect(() => {
   const userEmail = localStorage.getItem('userEmail');
-  if (!userEmail || !isLoggedIn) return;
+  if (!userEmail || !isLoggedIn || cartLoaded.current) return;
+  cartLoaded.current = true;
   fetch(`https://mybalanceshoestore.onrender.com/api/cart/${userEmail}`)
     .then(res => res.json())
     .then(data => {
@@ -126,6 +130,7 @@ useEffect(() => {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+     cartLoaded.current = false;
     localStorage.removeItem('isLoggedIn');
   };
 

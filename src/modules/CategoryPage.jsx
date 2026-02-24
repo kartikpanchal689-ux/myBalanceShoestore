@@ -1,24 +1,30 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ProductList from './ProductList';
-import allProducts from '../data/products';
+import staticProducts from '../data/products';
 
 function CategoryPage({ addToCart }) {
   const { category } = useParams();
-  
+
   const categoryMap = {
     'running': 'Running',
     'lifestyle': 'Lifestyle',
     'training': 'Training',
     'accessories': 'Accessories'
   };
-  
+
   const categoryName = categoryMap[category.toLowerCase()] || category;
-  
-  const products = allProducts.filter(p => 
+
+  // Merge static products with admin-added products from localStorage
+  const customProducts = (() => {
+    try { return JSON.parse(localStorage.getItem('adminProducts') || '[]'); } catch { return []; }
+  })();
+  const allProducts = [...staticProducts, ...customProducts];
+
+  const products = allProducts.filter(p =>
     p.category.toLowerCase() === categoryName.toLowerCase()
   );
-  
+
   return (
     <div style={{ width: "100%", paddingTop: "70px" }}>
       {products.length === 0 ? (
@@ -29,7 +35,7 @@ function CategoryPage({ addToCart }) {
           </Link>
         </div>
       ) : (
-        <ProductList 
+        <ProductList
           products={products}
           categoryName={categoryName}
           addToCart={addToCart}

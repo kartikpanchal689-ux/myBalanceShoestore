@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
-import products from '../data/products';
+import React, { useState, useEffect } from 'react';
+import staticProducts from '../data/products';
+
+const SERVER_URL = "https://mybalanceshoestore.onrender.com";
 
 export default function AdminProducts() {
-  const [customProducts, setCustomProducts] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('adminProducts') || '[]'); } catch { return []; }
-  });
+  const [dbProducts, setDbProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState(null);
-  const [form, setForm] = useState({ name: '', category: 'Running', price: '', image: '', description: '', colors: '', sizes: '' });
+  const [form, setForm] = useState({
+    name: '', category: 'Running', price: '', image: '', description: '', colors: '', sizes: ''
+  });
 
-  const allProducts = [...products, ...customProducts];
+  // Fetch DB products on mount
+  useEffect(() => {
+    fetch(`${SERVER_URL}/api/admin/products`)
+      .then(r => r.json())
+      .then(data => { if (data.success) setDbProducts(data.products); })
+      .catch(err => console.error("Failed to fetch products:", err));
+  }, []);
+
+  const allProducts = [...staticProducts, ...dbProducts];
 
   const openAdd = () => {
     setEditId(null);
@@ -18,37 +28,76 @@ export default function AdminProducts() {
   };
 
   const openEdit = (p) => {
-    setEditId(p.id);
+    setEditId(p._id || p.id);
     setForm({
       name: p.name, category: p.category, price: p.price,
       image: p.image, description: p.description || '',
-      colors: (p.colors || []).join(', '), sizes: (p.sizes || []).join(', ')
+      colors: (p.colors || []).join(', '),
+      sizes: (p.sizes || []).join(', ')
     });
     setShowModal(true);
   };
 
-  const save = () => {
+  const save = async () => {
     if (!form.name || !form.price) return alert('Name and price required');
+
     const product = {
-      id: editId || Date.now(),
-      name: form.name, category: form.category, price: parseFloat(form.price),
-      image: form.image, description: form.description,
+      name: form.name,
+      category: form.category,
+      price: parseFloat(form.price),
+      image: form.image,
+      description: form.description,
       colors: form.colors.split(',').map(s => s.trim()).filter(Boolean),
       sizes: form.sizes.split(',').map(s => s.trim()).filter(Boolean),
     };
-    let custom = [...customProducts];
-    const idx = custom.findIndex(p => p.id === editId);
-    if (idx >= 0) custom[idx] = product; else custom.push(product);
-    setCustomProducts(custom);
-    localStorage.setItem('adminProducts', JSON.stringify(custom));
-    setShowModal(false);
+
+    try {
+      let res, data;
+      // Only DB products (with _id) can be edited via API
+      const isDbProduct = editId && typeof editId === 'string' && editId.length === 24;
+
+      if (isDbProduct) {
+        res = await fetch(`${SERVER_URL}/api/admin/products/${editId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(product)
+        });
+      } else {
+        res = await fetch(`${SERVER_URL}/api/admin/products`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(product)
+        });
+      }
+
+      data = await res.json();
+      if (!data.success) return alert('Failed to save: ' + data.message);
+
+      if (isDbProduct) {
+        setDbProducts(prev => prev.map(p => p._id === editId ? data.product : p));
+      } else {
+        setDbProducts(prev => [...prev, data.product]);
+      }
+
+      setShowModal(false);
+    } catch (err) {
+      alert('Server error: ' + err.message);
+    }
   };
 
-  const deleteProduct = (id) => {
+  const deleteProduct = async (p) => {
     if (!window.confirm('Delete this product?')) return;
-    const custom = customProducts.filter(p => p.id !== id);
-    setCustomProducts(custom);
-    localStorage.setItem('adminProducts', JSON.stringify(custom));
+    const isDbProduct = p._id;
+
+    if (!isDbProduct) return alert('Static products cannot be deleted here.');
+
+    try {
+      const res = await fetch(`${SERVER_URL}/api/admin/products/${p._id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) setDbProducts(prev => prev.filter(x => x._id !== p._id));
+    } catch (err) {
+      alert('Server error: ' + err.message);
+    }
   };
 
   return (
@@ -63,7 +112,7 @@ export default function AdminProducts() {
 
       <div className="admin-products-grid">
         {allProducts.map((p, i) => (
-          <div className="admin-product-card" key={i}>
+          <div className="admin-product-card" key={p._id || p.id || i}>
             <img src={p.image} alt={p.name} className="admin-product-img"
               onError={e => e.target.style.background = '#1f1f1f'} />
             <div className="admin-product-info">
@@ -72,7 +121,7 @@ export default function AdminProducts() {
               <div className="admin-product-price">₹{p.price}</div>
               <div className="admin-product-actions">
                 <button className="admin-btn primary" onClick={() => openEdit(p)}>Edit</button>
-                <button className="admin-btn danger" onClick={() => deleteProduct(p.id)}>Delete</button>
+                <button className="admin-btn danger" onClick={() => deleteProduct(p)}>Delete</button>
               </div>
             </div>
           </div>
@@ -99,7 +148,7 @@ export default function AdminProducts() {
             <div>
               <label className="admin-modal-label">Category</label>
               <select className="admin-modal-input" value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
-                {['Running','Lifestyle','Training','Accessories'].map(c => <option key={c}>{c}</option>)}
+                {['Running', 'Lifestyle', 'Training', 'Accessories'].map(c => <option key={c}>{c}</option>)}
               </select>
             </div>
             <div>

@@ -63,7 +63,29 @@ export default function AdminDashboard() {
                   <td className="mono">{o.orderId}</td>
                   <td>{o.userEmail}</td>
                   <td>₹{(o.total || 0).toFixed(2)}</td>
-                  <td><span className={`admin-badge ${(o.status || '').toLowerCase()}`}>{o.status || 'Processing'}</span></td>
+                  <td>
+  <select
+    className={`admin-status-select ${(o.status || '').toLowerCase()}`}
+    value={o.status || 'Processing'}
+    onChange={async (e) => {
+      const newStatus = e.target.value;
+      await fetch(`${API}/update-status/${o.orderId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      });
+      setRecentOrders(prev => prev.map(order =>
+        order.orderId === o.orderId ? { ...order, status: newStatus } : order
+      ));
+    }}
+  >
+    <option>Processing</option>
+    <option>Shipped</option>
+    <option>Out for Delivery</option>
+    <option>Delivered</option>
+    <option>Cancelled</option>
+  </select>
+</td>
                   <td>{o.date}</td>
                 </tr>
               ))}

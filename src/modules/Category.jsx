@@ -1,74 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import ProductList from './ProductList';
-import staticProducts from '../data/products';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const SERVER_URL = "https://mybalanceshoestore.onrender.com";
+const categories = [
+  { name: 'Running', link: '/category/running', image: '/myBalanceShoestore/images/running1-white-1.webp' },
+  { name: 'Lifestyle', link: '/category/lifestyle', image: '/myBalanceShoestore/images/lifestyle1.jpg' },
+  { name: 'Training', link: '/category/training', image: '/myBalanceShoestore/images/training1.webp' },
+  { name: 'Accessories', link: '/category/accessories', image: '/myBalanceShoestore/images/socks.webp' },
+];
 
-function CategoryPage({ addToCart }) {
-  const { category } = useParams();
-  const [dbProducts, setDbProducts] = useState([]);
-
-  const categoryMap = {
-    'running': 'Running',
-    'lifestyle': 'Lifestyle',
-    'training': 'Training',
-    'accessories': 'Accessories'
-  };
-
-  const categoryName = categoryMap[category.toLowerCase()] || category;
-
-  // Fetch DB products on mount
-  useEffect(() => {
-    fetch(`${SERVER_URL}/api/admin/products`)
-      .then(r => r.json())
-      .then(data => { if (data.success) setDbProducts(data.products); })
-      .catch(err => console.error("Failed to fetch products:", err));
-  }, []);
-
-  // Listen to SSE for real-time product updates
-  useEffect(() => {
-    const sse = new EventSource(`${SERVER_URL}/api/sync/guest`);
-
-    sse.onmessage = (e) => {
-      const event = JSON.parse(e.data);
-      if (event.type === "PRODUCT_ADDED") {
-        setDbProducts(prev => [...prev, event.payload]);
-      } else if (event.type === "PRODUCT_UPDATED") {
-        setDbProducts(prev => prev.map(p => p._id === event.payload._id ? event.payload : p));
-      } else if (event.type === "PRODUCT_DELETED") {
-        setDbProducts(prev => prev.filter(p => p._id !== event.payload.id));
-      }
-    };
-
-    sse.onerror = () => sse.close();
-    return () => sse.close();
-  }, []);
-
-  const allProducts = [...staticProducts, ...dbProducts];
-
-  const products = allProducts.filter(p =>
-    p.category.toLowerCase() === categoryName.toLowerCase()
-  );
-
+function Category() {
   return (
-    <div style={{ width: "100%", paddingTop: "70px" }}>
-      {products.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "60px 20px" }}>
-          <p style={{ fontSize: "1.2rem", color: "#666" }}>No products found in this category</p>
-          <Link to="/" style={{ display: "inline-block", marginTop: "20px", padding: "12px 30px", backgroundColor: "#000", color: "#fff", textDecoration: "none", borderRadius: "4px" }}>
-            Continue Shopping
+    <section style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '30px', fontSize: '2rem' }}>Shop by Category</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
+        {categories.map(cat => (
+          <Link key={cat.name} to={cat.link} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #eee', transition: 'transform 0.2s', cursor: 'pointer' }}>
+              <img src={cat.image} alt={cat.name} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+              <div style={{ padding: '16px', textAlign: 'center' }}>
+                <h3 style={{ margin: 0, fontSize: '1.2rem' }}>{cat.name}</h3>
+              </div>
+            </div>
           </Link>
-        </div>
-      ) : (
-        <ProductList
-          products={products}
-          categoryName={categoryName}
-          addToCart={addToCart}
-        />
-      )}
-    </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
-export default CategoryPage;
+export default Category;

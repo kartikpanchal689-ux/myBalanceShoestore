@@ -138,7 +138,11 @@ function App() {
         />
 
         <Route path="/products" element={<ProductsPage addToCart={addToCart} />} />
-        <Route path="/category/:category" element={<CategoryPage addToCart={addToCart} />} />
+        <Route path="/category/:category" element={
+  <div style={{paddingTop: '70px'}}>
+    <CategoryPage addToCart={addToCart} />
+  </div>
+} />
         <Route path="/product/:id" element={<ProductDetail addToCart={addToCart} addToRecentlyViewed={addToRecentlyViewed} />} />
         <Route path="/search" element={<SearchResults addToCart={addToCart} addToSearchHistory={addToSearchHistory} searchHistory={searchHistory} />} />
         <Route path="/cart" element={<Cart items={cartItems} setItems={setCartItems} />} />

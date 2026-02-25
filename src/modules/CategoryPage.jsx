@@ -8,6 +8,7 @@ const SERVER_URL = "https://mybalanceshoestore.onrender.com";
 function CategoryPage({ addToCart }) {
   const { category } = useParams();
   const [dbProducts, setDbProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const categoryMap = {
     'running': 'Running',
@@ -16,14 +17,16 @@ function CategoryPage({ addToCart }) {
     'accessories': 'Accessories'
   };
 
-  const categoryName = categoryMap[category.toLowerCase()] || category;
+   if (!category) return <div>Invalid category</div>;
+  const categoryName = category ? (categoryMap[category.toLowerCase()] || category) : '';  
 
   // Fetch DB products on mount
   useEffect(() => {
     fetch(`${SERVER_URL}/api/admin/products`)
       .then(r => r.json())
       .then(data => { if (data.success) setDbProducts(data.products); })
-      .catch(err => console.error("Failed to fetch products:", err));
+      .catch(err => console.error("Failed to fetch products:", err))
+      .finally(() => setLoading(false));
   }, []);
 
   // Listen to SSE for real-time product updates
@@ -46,8 +49,11 @@ function CategoryPage({ addToCart }) {
   const allProducts = [...staticProducts, ...dbProducts];
 
   const products = allProducts.filter(p =>
-    p.category.toLowerCase() === categoryName.toLowerCase()
-  );
+  p.category && categoryName && 
+  p.category.toLowerCase() === categoryName.toLowerCase()
+);
+
+  if (loading) return <div style={{textAlign:'center', padding:'60px'}}>Loading...</div>;
 
   return (
     <>

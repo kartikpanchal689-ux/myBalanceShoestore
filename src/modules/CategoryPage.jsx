@@ -1,24 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ProductList from './ProductList';
-import allProducts from '../data/products';
+import staticProducts from '../data/products';
+
+const SERVER_URL = "https://mybalanceshoestore.onrender.com";
 
 function CategoryPage({ addToCart }) {
   const { category } = useParams();
-  
+  const [dbProducts, setDbProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const categoryMap = {
     'running': 'Running',
     'lifestyle': 'Lifestyle',
     'training': 'Training',
     'accessories': 'Accessories'
   };
-  
+
   const categoryName = categoryMap[category.toLowerCase()] || category;
-  
-  const products = allProducts.filter(p => 
+
+  // ✅ Fetch DB products on load
+  useEffect(() => {
+    fetch(`${SERVER_URL}/api/admin/products`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) setDbProducts(data.products);
+      })
+      .catch(err => console.error("Failed to fetch products:", err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  // ✅ Combine static + DB products, then filter by category
+  const allProducts = [...staticProducts, ...dbProducts];
+  const products = allProducts.filter(p =>
     p.category.toLowerCase() === categoryName.toLowerCase()
   );
-  
+
+  if (loading) return <div style={{ textAlign: 'center', padding: '60px', paddingTop: '130px' }}>Loading...</div>;
+
   return (
     <div style={{ width: "100%", paddingTop: "70px" }}>
       {products.length === 0 ? (
@@ -29,7 +48,7 @@ function CategoryPage({ addToCart }) {
           </Link>
         </div>
       ) : (
-        <ProductList 
+        <ProductList
           products={products}
           categoryName={categoryName}
           addToCart={addToCart}

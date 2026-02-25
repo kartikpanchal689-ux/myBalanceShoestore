@@ -19,7 +19,6 @@ function CategoryPage({ addToCart }) {
 
   const categoryName = categoryMap[category.toLowerCase()] || category;
 
-  // ✅ Fetch DB products on load
   useEffect(() => {
     fetch(`${SERVER_URL}/api/admin/products`)
       .then(r => r.json())
@@ -30,13 +29,12 @@ function CategoryPage({ addToCart }) {
       .finally(() => setLoading(false));
   }, []);
 
-  // ✅ Combine static + DB products, then filter by category
   const allProducts = [...staticProducts, ...dbProducts];
   const products = allProducts.filter(p =>
     p.category.toLowerCase() === categoryName.toLowerCase()
   );
 
-  if (loading) return <div style={{ textAlign: 'center', padding: '60px', paddingTop: '130px' }}>Loading...</div>;
+  if (loading) return <div style={{ textAlign: 'center', padding: '130px 60px' }}>Loading...</div>;
 
   return (
     <div style={{ width: "100%", paddingTop: "70px" }}>

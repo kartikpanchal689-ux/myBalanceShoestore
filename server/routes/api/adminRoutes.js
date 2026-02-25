@@ -61,5 +61,15 @@ router.get("/admin/products", async (req, res) => {
   }
 });
 
+// Create new product (admin)
+router.post("/admin/products", async (req, res) => {
+  try {
+    const product = new Product(req.body);
+    await product.save();
+    res.json({ success: true, product });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
 
 module.exports = router;

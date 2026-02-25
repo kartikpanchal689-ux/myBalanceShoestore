@@ -1,6 +1,7 @@
 const express = require("express");
 const Order = require("../../models/order");
 const User = require("../../models/user");
+const Product = require("../../models/product");
 const router = express.Router();
 
 // Get all orders (admin)
@@ -49,5 +50,16 @@ router.patch("/admin/order-status/:orderId", async (req, res) => {
     res.json({ success: false, message: err.message });
   }
 });
+
+// Get all products (admin)
+router.get("/admin/products", async (req, res) => {
+  try {
+    const products = await Product.find().sort({ createdAt: -1 });
+    res.json({ success: true, products });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 
 module.exports = router;

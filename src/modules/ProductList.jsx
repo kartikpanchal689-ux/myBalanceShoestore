@@ -295,8 +295,7 @@ const ProductList = ({ products, categoryName, addToCart }) => {
                     alt={product.name}
                     className="product-image"
                   />
-                  {product.isNew && <span className="badge badge-new">New color</span>}
-                  {product.badge && <span className={`badge badge-${product.badge.toLowerCase().replace(/\s+/g, '-')}`}>{product.badge}</span>}
+                 {product.badge && typeof product.badge === 'string' && <span className={`badge badge-${product.badge.toLowerCase().replace(/\s+/g, '-')}`}>{product.badge}</span>}
                 </div>
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>

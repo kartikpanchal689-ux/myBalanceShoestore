@@ -12,7 +12,34 @@ export default function ProductDetail({ addToCart }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState(null);
   
-  const product = allProducts.find(p => p.id === parseInt(id));
+  const [product, setProduct] = useState(
+    allProducts.find(p => p.id === parseInt(id))
+  );
+
+  useEffect(() => {
+    if (!product) {
+      fetch(`https://mybalanceshoestore.onrender.com/api/admin/products`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            const found = data.products.find(p => p._id === id);
+            if (found) setProduct(found);
+          }
+        });
+    }
+  }, [id]);
+
+  // Initialize selected color on mount ✅ MOVED UP
+  useEffect(() => {
+    if (product && !selectedColor && product.colors && product.colors.length > 0) {
+      setSelectedColor(product.colors[0]);
+    }
+  }, [product, selectedColor]);
+
+  // Reset to first image when color changes ✅ MOVED UP
+  useEffect(() => {
+    setSelectedImage(0);
+  }, [selectedColor]);
 
   if (!product) {
     return (
@@ -44,18 +71,6 @@ export default function ProductDetail({ addToCart }) {
   const productImages = selectedColor && product.colorImages && product.colorImages[selectedColor]
     ? product.colorImages[selectedColor]
     : product.images || [product.image];
-  
-  // Initialize selected color on mount
-  useEffect(() => {
-    if (!selectedColor && product.colors && product.colors.length > 0) {
-      setSelectedColor(product.colors[0]);
-    }
-  }, [product.colors, selectedColor]);
-
-  // Reset to first image when color changes
-  useEffect(() => {
-    setSelectedImage(0);
-  }, [selectedColor]);
 
   return (
     <div className="product-detail-wrapper">
@@ -140,13 +155,10 @@ export default function ProductDetail({ addToCart }) {
               </div>
             )}
             
-            <p className="stock-status">
-              {product.stock > 0 ? `In Stock: ${product.stock} items` : 'Out of Stock'}
-            </p>
+            <p className="stock-status">In Stock</p>
             
             <button 
               onClick={handleAddToCart}
-              disabled={product.stock === 0}
               className={`add-to-cart-button ${addedToCart ? 'added' : ''}`}
             >
               {addedToCart ? '✓ Added to Cart!' : 'Add to Cart'}
@@ -158,7 +170,7 @@ export default function ProductDetail({ addToCart }) {
           </div>
         </div>
 
-        {/* Related Products - MOVED ABOVE REVIEWS */}
+        {/* Related Products */}
         {related.length > 0 && (
           <div className="related-products-section">
             <h3 className="section-title">You May Also Like</h3>
@@ -168,7 +180,7 @@ export default function ProductDetail({ addToCart }) {
                 const relatedReviewCount = getReviewCount(r.id);
                 
                 return (
-                  <Link to={`/product/${r.id}`} key={r.id} className="related-product-card">
+                  <Link to={`/product/${r._id || r.id}`} key={r._id || r.id} className="related-product-card">
                     <div className="related-product-image">
                       <img src={r.image} alt={r.name} />
                     </div>
@@ -188,7 +200,7 @@ export default function ProductDetail({ addToCart }) {
           </div>
         )}
 
-        {/* Reviews Section - NOW BELOW RELATED PRODUCTS */}
+        {/* Reviews Section */}
         <ReviewSection productId={product.id} />
       </div>
     </div>

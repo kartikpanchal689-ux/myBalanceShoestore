@@ -9,7 +9,7 @@ const products = [
     id: 1,
     name: 'NB Running Elite',
     category: 'Running',
-    price: '$150',
+    price: '150',
     image: '/myBalanceShoestore/images/running1-white-1.webp',
     images: [
       '/myBalanceShoestore/images/running1.jpg',

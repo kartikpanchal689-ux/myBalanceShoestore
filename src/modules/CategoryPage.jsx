@@ -20,27 +20,31 @@ function CategoryPage({ addToCart }) {
   const categoryName = categoryMap[category.toLowerCase()] || category;
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${SERVER_URL}/api/admin/products`)
       .then(r => r.json())
       .then(data => {
         if (data.success) setDbProducts(data.products);
       })
-      .catch(err => console.error("Failed to fetch products:", err))
+      .catch(err => console.error("Failed to fetch:", err))
       .finally(() => setLoading(false));
-  }, []);
-
-  const allProducts = [...staticProducts, ...dbProducts];
-  const products = allProducts.filter(p =>
-    p.category.toLowerCase() === categoryName.toLowerCase()
-  );
+  }, [category]); // 👈 re-fetch when category changes
 
   if (loading) return <div style={{ textAlign: 'center', padding: '130px 60px' }}>Loading...</div>;
 
+  const allProducts = [...staticProducts, ...dbProducts].map(p => ({
+  ...p,
+  price: parseFloat(String(p.price).replace(/[^0-9.]/g, '')) || 0
+}));
+  const products = allProducts.filter(p =>
+    p.category.toLowerCase() === categoryName.toLowerCase()
+  );
+console.log("PRODUCTS AFTER FILTER:", products.length, products.map(p=>p.name));
   return (
     <div style={{ width: "100%", paddingTop: "70px" }}>
       {products.length === 0 ? (
         <div style={{ textAlign: "center", padding: "60px 20px" }}>
-          <p style={{ fontSize: "1.2rem", color: "#666" }}>No products found in this category</p>
+          <p style={{ fontSize: "1.2rem", color: "#666" }}>No products found</p>
           <Link to="/" style={{ display: "inline-block", marginTop: "20px", padding: "12px 30px", backgroundColor: "#000", color: "#fff", textDecoration: "none", borderRadius: "4px" }}>
             Continue Shopping
           </Link>

@@ -8,7 +8,9 @@ export default function AdminProducts() {
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState(null);
   const [form, setForm] = useState({
-    name: '', category: 'Running', price: '', image: '', description: '', colors: '', sizes: ''
+    name: '', category: 'Running', price: '', 
+    image: '', image2: '', image3: '', image4: '', image5: '', image6: '',
+    description: '', colors: '', sizes: ''
   });
 
   // Fetch DB products on mount
@@ -31,7 +33,13 @@ export default function AdminProducts() {
     setEditId(p._id || p.id);
     setForm({
       name: p.name, category: p.category, price: p.price,
-      image: p.image, description: p.description || '',
+      image: p.images?.[0] || p.image || '',
+      image2: p.images?.[1] || '',
+      image3: p.images?.[2] || '',
+      image4: p.images?.[3] || '',
+      image5: p.images?.[4] || '',
+      image6: p.images?.[5] || '',
+      description: p.description || '',
       colors: (p.colors || []).join(', '),
       sizes: (p.sizes || []).join(', ')
     });
@@ -41,11 +49,14 @@ export default function AdminProducts() {
   const save = async () => {
     if (!form.name || !form.price) return alert('Name and price required');
 
+    const images = [form.image, form.image2, form.image3, form.image4, form.image5, form.image6]
+      .filter(Boolean);
     const product = {
       name: form.name,
       category: form.category,
       price: parseFloat(form.price),
       image: form.image,
+      images: images,
       description: form.description,
       colors: form.colors.split(',').map(s => s.trim()).filter(Boolean),
       sizes: form.sizes.split(',').map(s => s.trim()).filter(Boolean),
@@ -135,7 +146,12 @@ export default function AdminProducts() {
             {[
               { label: 'Product Name', key: 'name', type: 'text', placeholder: 'NB Running Elite' },
               { label: 'Price (₹)', key: 'price', type: 'number', placeholder: '150' },
-              { label: 'Image URL', key: 'image', type: 'text', placeholder: '/images/product.jpg' },
+              { label: 'Image 1 (Main)', key: 'image', type: 'text', placeholder: 'https://example.com/image1.jpg' },
+              { label: 'Image 2', key: 'image2', type: 'text', placeholder: 'https://example.com/image2.jpg' },
+              { label: 'Image 3', key: 'image3', type: 'text', placeholder: 'https://example.com/image3.jpg' },
+              { label: 'Image 4', key: 'image4', type: 'text', placeholder: 'https://example.com/image4.jpg' },
+              { label: 'Image 5', key: 'image5', type: 'text', placeholder: 'https://example.com/image5.jpg' },
+              { label: 'Image 6', key: 'image6', type: 'text', placeholder: 'https://example.com/image6.jpg' },
               { label: 'Colors (comma separated)', key: 'colors', type: 'text', placeholder: 'Black, White, Gray' },
               { label: 'Sizes (comma separated)', key: 'sizes', type: 'text', placeholder: '7, 8, 9, 10, 11' },
             ].map(f => (

@@ -5,7 +5,7 @@ import './ProductList.css';
 const ProductList = ({ products, categoryName, addToCart }) => {
   const [showFilters, setShowFilters] = useState(false); // ✅ FIX 1: Changed from true to false
   const [sortBy, setSortBy] = useState('featured');
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 999999 });
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
 
@@ -219,7 +219,7 @@ const ProductList = ({ products, categoryName, addToCart }) => {
                 <input
                   type="range"
                   min="0"
-                  max="1000"
+                  max="999999"
                   value={priceRange.max}
                   onChange={(e) => setPriceRange(prev => ({ ...prev, max: Number(e.target.value) }))}
                   className="price-slider"
@@ -285,7 +285,7 @@ const ProductList = ({ products, categoryName, addToCart }) => {
             filteredAndSortedProducts.map(product => (
               <Link
                 key={product.id}
-                to={`/product/${product.id}`}
+                to={`/product/${product._id || product.id}`}
                 className="product-card"
                 style={{ textDecoration: 'none', color: 'inherit' }}
               >

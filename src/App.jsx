@@ -22,7 +22,12 @@ import ProductsPage from './modules/ProductsPage';
 import Orders from './modules/Orders';
 import { shopNowProducts, gridProducts } from './data/products';
 import Admin from './modules/Admin';
+import { useParams } from 'react-router-dom';
 
+function ProductDetailWrapper(props) {
+  const { id } = useParams();
+  return <ProductDetail key={id} {...props} />;
+}
 
 function App() {
   const [cartItems, setCartItems] = useState(() => {
@@ -143,7 +148,7 @@ function App() {
     <CategoryPage addToCart={addToCart} />
   </div>
 } />
-        <Route path="/product/:id" element={<ProductDetail addToCart={addToCart} addToRecentlyViewed={addToRecentlyViewed} />} />
+        <Route path="/product/:id" element={<ProductDetailWrapper addToCart={addToCart} addToRecentlyViewed={addToRecentlyViewed} />} />
         <Route path="/search" element={<SearchResults addToCart={addToCart} addToSearchHistory={addToSearchHistory} searchHistory={searchHistory} />} />
         <Route path="/cart" element={<Cart items={cartItems} setItems={setCartItems} />} />
         <Route path="/checkout" element={<Checkout total={total} items={cartItems} setCartItems={setCartItems} />} />

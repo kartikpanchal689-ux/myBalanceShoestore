@@ -8,7 +8,7 @@ import AdminProducts from './Adminproducts';
 import AdminReports from './Adminreports';
 import AdminDatabase from './AdminDatabase';
 import AdminReviews from './AdminReviews';
-import AdminReturns from './AdminReturns';
+import AdminReturns from './adminReturns';
 import './Admin.css';
 
 export default function Admin() {

@@ -8,7 +8,7 @@ import AdminProducts from './Adminproducts';
 import AdminReports from './Adminreports';
 import AdminDatabase from './AdminDatabase';
 import AdminReviews from './AdminReviews';
-
+import AdminReturns from './AdminReturns';
 import './Admin.css';
 
 export default function Admin() {
@@ -39,6 +39,7 @@ export default function Admin() {
     { path: '/admin/reports', icon: '📈', label: 'Reports' },
     { path: '/admin/database', icon: '🗄️', label: 'Database' },
     { path: '/admin/reviews', icon: '⭐', label: 'Reviews' },
+    { path: '/admin/returns', icon: '🔄', label: 'Returns' },
   ];
 
   return (
@@ -71,8 +72,9 @@ export default function Admin() {
           <Route path="products" element={<AdminProducts />} />
           <Route path="reports" element={<AdminReports />} />
           <Route path="database" element={<AdminDatabase />} />
-          <Route path="*" element={<Navigate to="/admin/dashboard" />} />
           <Route path="reviews" element={<AdminReviews />} />
+          <Route path="returns" element={<AdminReturns />} />
+          <Route path="*" element={<Navigate to="/admin/dashboard" />} />
         </Routes>
       </main>
     </div>

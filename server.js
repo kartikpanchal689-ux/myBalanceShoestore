@@ -8,6 +8,7 @@ const authRoutes = require("./server/routes/api/auth");
 const orderRoutes = require("./server/routes/api/orders");
 const adminRoutes = require("./server/routes/api/adminRoutes");
 const reviewRoutes = require("./server/routes/api/reviewRoutes");
+const returnRoutes = require("./server/routes/api/returnRoutes.js");
 
 const app = express();
 const server = http.createServer(app);
@@ -28,6 +29,7 @@ app.use("/api", authRoutes);
 app.use("/api", orderRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", reviewRoutes);
+app.use("/api", returnRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))

@@ -142,21 +142,22 @@ function App() {
           }
         />
 
-        <Route path="/products" element={<ProductsPage addToCart={addToCart} />} />
-        <Route path="/category/:category" element={
+        <Route path="/products" element={<><ProductsPage addToCart={addToCart} /><Footer /></>} />
+<Route path="/category/:category" element={
   <div style={{paddingTop: '70px'}}>
     <CategoryPage addToCart={addToCart} />
+    <Footer />
   </div>
 } />
-        <Route path="/product/:id" element={<ProductDetailWrapper addToCart={addToCart} addToRecentlyViewed={addToRecentlyViewed} />} />
-        <Route path="/search" element={<SearchResults addToCart={addToCart} addToSearchHistory={addToSearchHistory} searchHistory={searchHistory} />} />
-        <Route path="/cart" element={<Cart items={cartItems} setItems={setCartItems} />} />
-        <Route path="/checkout" element={<Checkout total={total} items={cartItems} setCartItems={setCartItems} />} />
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/orders" element={<Orders />} />
+<Route path="/product/:id" element={<><ProductDetailWrapper addToCart={addToCart} addToRecentlyViewed={addToRecentlyViewed} /><Footer /></>} />
+<Route path="/search" element={<><SearchResults addToCart={addToCart} addToSearchHistory={addToSearchHistory} searchHistory={searchHistory} /><Footer /></>} />
+<Route path="/cart" element={<><Cart items={cartItems} setItems={setCartItems} /><Footer /></>} />
+<Route path="/checkout" element={<><Checkout total={total} items={cartItems} setCartItems={setCartItems} /><Footer /></>} />
+<Route path="/login" element={<><Login setIsLoggedIn={setIsLoggedIn} /><Footer /></>} />
+<Route path="/register" element={<><Register /><Footer /></>} />
+<Route path="/about" element={<><About /><Footer /></>} />
+<Route path="/contact" element={<><Contact /><Footer /></>} />
+<Route path="/orders" element={<><Orders /><Footer /></>} />
         <Route path="/admin/*" element={<Admin />} />
       </Routes>
     </div>

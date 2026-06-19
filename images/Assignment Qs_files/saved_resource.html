@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<!-- saved from url=(1172)https://www.apnacollege.in/pdfplayer/components/pdf/web/viewer.html?file=https%3A%2F%2Fwww.apnacollege.in%2Fpdf-server%2Fv2%2Fstamp%2Fpdf%2FJS%20Part%208%20(Qs).pdf%3Fjwt%3DeyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJhcGkubGVhcm53b3JsZHMuY29tIiwiYXVkIjoicGRmc2VydmljZS5sZWFybndvcmxkcy5jb20iLCJpYXQiOjE3NzcwMDY0NDksImV4cCI6MTc3NzAwNjU2OSwicGF5bG9hZCI6eyJzdGFtcFBheWxvYWQiOnsic2VydmVyIjoiYXNpYS1zZTEiLCJhY2NvdW50IjoibHdmaWxlcyIsImNvbnRhaW5lciI6IjYyYTZjZDVlMWU5ZTJmYmYyMTJkNjA4ZC1wcml2YXRlIiwiYmxvYlBhdGgiOiJwZGYvSlMgUGFydCA4IChRcykucGRmIiwicHJldmlldyI6ZmFsc2UsImNsaWVudElkIjoiNjJhNmNkNWUxZTllMmZiZjIxMmQ2MDhkIiwidXNlclBhc3N3b3JkIjpmYWxzZSwib3duZXJQYXNzd29yZCI6ZmFsc2UsInBlcm1pc3Npb25zIjpudWxsLCJmb250IjpudWxsLCJzdGFtcHMiOlt7ImxvZ29VcmwiOm51bGwsInRleHQiOiJrYXJ0aWtwYW5jaGFsNjg5QGdtYWlsLmNvbSIsInBvc2l0aW9uIjoicmlnaHQiLCJyb3RhdGlvbiI6IjI3MCIsInRyYW5zcGFyZW5jeSI6MC44LCJzdGFtcFRvUGFnZVJhdGlvIjowLjc1LCJ0ZXh0VG9Mb2dvTWF4SGVpZ2h0UmF0aW8iOjAuNX1dLCJjb250ZW50RGlzcG9zaXRpb24iOiJpbmxpbmUifX19.XDkyJmDUnMXTNZKYwsXE0arWO6zZrng12swxrTfKcIHFzQhhmZtVvtSX88hCHe2zeg6X5pd-jzpVNbrP9WBSPNF5fFIDDQCvXMiT6kGxqmWgwgFHh8V371qkEIZg-HaxPaf6vxobUXRJNltVZFKqI_k8H59_GMhYovqmd1TUVl0&isMobileApp=0 -->
+<html dir="ltr" mozdisallowselectionprint="" moznomarginboxes=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PDF.js viewer</title>
+
+
+    <link rel="stylesheet" href="./viewer.css">
+
+
+<!-- This snippet is used in production (included from viewer.html) -->
+<link rel="resource" type="application/l10n" href="https://www.apnacollege.in/pdfplayer/components/pdf/web/locale/locale.properties">
+<script src="./pdf.js.download"></script>
+    <!-- no dependencies so we have to import straight from compiledJs folder -->
+    <script src="./pdf(1).js.download"></script>
+    <script>
+        PDFJS.externalLinkTarget = PDFJS.LinkTarget.BLANK;
+    </script>
+    <script src="./viewer.js.download"></script>
+
+  <script src="./pdf.worker.js.download"></script></head>
+
+  <body tabindex="1" class="">
+    <div id="outerContainer">
+
+      <div id="sidebarContainer">
+        <div id="toolbarSidebar">
+          <div class="splitToolbarButton toggled">
+            <button id="viewThumbnail" class="toolbarButton toggled" title="Show Thumbnails" tabindex="2" data-l10n-id="thumbs">
+               <span data-l10n-id="thumbs_label">Thumbnails</span>
+            </button>
+            <button id="viewOutline" class="toolbarButton" title="Show Document Outline (double-click to expand/collapse all items)" tabindex="3" data-l10n-id="document_outline" disabled="">
+               <span data-l10n-id="document_outline_label">Document Outline</span>
+            </button>
+            <button id="viewAttachments" class="toolbarButton" title="Show Attachments" tabindex="4" data-l10n-id="attachments" disabled="">
+               <span data-l10n-id="attachments_label">Attachments</span>
+            </button>
+          </div>
+        </div>
+        <div id="sidebarContent">
+          <div id="thumbnailView"><a href="https://www.apnacollege.in/pdfplayer/components/pdf/web/viewer.html?file=https%3A%2F%2Fwww.apnacollege.in%2Fpdf-server%2Fv2%2Fstamp%2Fpdf%2FJS%20Part%208%20(Qs).pdf%3Fjwt%3DeyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJhcGkubGVhcm53b3JsZHMuY29tIiwiYXVkIjoicGRmc2VydmljZS5sZWFybndvcmxkcy5jb20iLCJpYXQiOjE3NzcwMDY0NDksImV4cCI6MTc3NzAwNjU2OSwicGF5bG9hZCI6eyJzdGFtcFBheWxvYWQiOnsic2VydmVyIjoiYXNpYS1zZTEiLCJhY2NvdW50IjoibHdmaWxlcyIsImNvbnRhaW5lciI6IjYyYTZjZDVlMWU5ZTJmYmYyMTJkNjA4ZC1wcml2YXRlIiwiYmxvYlBhdGgiOiJwZGYvSlMgUGFydCA4IChRcykucGRmIiwicHJldmlldyI6ZmFsc2UsImNsaWVudElkIjoiNjJhNmNkNWUxZTllMmZiZjIxMmQ2MDhkIiwidXNlclBhc3N3b3JkIjpmYWxzZSwib3duZXJQYXNzd29yZCI6ZmFsc2UsInBlcm1pc3Npb25zIjpudWxsLCJmb250IjpudWxsLCJzdGFtcHMiOlt7ImxvZ29VcmwiOm51bGwsInRleHQiOiJrYXJ0aWtwYW5jaGFsNjg5QGdtYWlsLmNvbSIsInBvc2l0aW9uIjoicmlnaHQiLCJyb3RhdGlvbiI6IjI3MCIsInRyYW5zcGFyZW5jeSI6MC44LCJzdGFtcFRvUGFnZVJhdGlvIjowLjc1LCJ0ZXh0VG9Mb2dvTWF4SGVpZ2h0UmF0aW8iOjAuNX1dLCJjb250ZW50RGlzcG9zaXRpb24iOiJpbmxpbmUifX19.XDkyJmDUnMXTNZKYwsXE0arWO6zZrng12swxrTfKcIHFzQhhmZtVvtSX88hCHe2zeg6X5pd-jzpVNbrP9WBSPNF5fFIDDQCvXMiT6kGxqmWgwgFHh8V371qkEIZg-HaxPaf6vxobUXRJNltVZFKqI_k8H59_GMhYovqmd1TUVl0&amp;isMobileApp=0#page=1" title="Page 1"><div class="thumbnail selected" data-page-number="1"><div class="thumbnailSelectionRing" style="width: 100px; height: 128px;"></div></div></a></div>
+          <div id="outlineView" class="hidden"></div>
+          <div id="attachmentsView" class="hidden"></div>
+        </div>
+      </div>  <!-- sidebarContainer -->
+
+      <div id="mainContainer">
+        <div class="findbar hidden doorHanger" id="findbar">
+          <div id="findbarInputContainer">
+            <input id="findInput" class="toolbarField" title="Find" placeholder="Find in document…" tabindex="91" data-l10n-id="find_input">
+            <div class="splitToolbarButton">
+              <button id="findPrevious" class="toolbarButton findPrevious" title="Find the previous occurrence of the phrase" tabindex="92" data-l10n-id="find_previous">
+                <span data-l10n-id="find_previous_label">Previous</span>
+              </button>
+              <div class="splitToolbarButtonSeparator"></div>
+              <button id="findNext" class="toolbarButton findNext" title="Find the next occurrence of the phrase" tabindex="93" data-l10n-id="find_next">
+                <span data-l10n-id="find_next_label">Next</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="findbarOptionsContainer">
+            <input type="checkbox" id="findHighlightAll" class="toolbarField" tabindex="94">
+            <label for="findHighlightAll" class="toolbarLabel" data-l10n-id="find_highlight">Highlight all</label>
+            <input type="checkbox" id="findMatchCase" class="toolbarField" tabindex="95">
+            <label for="findMatchCase" class="toolbarLabel" data-l10n-id="find_match_case_label">Match case</label>
+            <span id="findResultsCount" class="toolbarLabel hidden"></span>
+          </div>
+
+          <div id="findbarMessageContainer">
+            <span id="findMsg" class="toolbarLabel"></span>
+          </div>
+        </div>  <!-- findbar -->
+
+        <div id="secondaryToolbar" class="secondaryToolbar hidden doorHangerRight">
+          <div id="secondaryToolbarButtonContainer">
+            <button id="secondaryPresentationMode" class="secondaryToolbarButton presentationMode visibleLargeView" title="Switch to Presentation Mode" tabindex="51" data-l10n-id="presentation_mode">
+              <span data-l10n-id="presentation_mode_label">Presentation Mode</span>
+            </button>
+
+            <button id="secondaryOpenFile" class="secondaryToolbarButton openFile visibleLargeView" title="Open File" tabindex="52" data-l10n-id="open_file" style="display:none">
+              <span data-l10n-id="open_file_label">Open</span>
+            </button>
+
+            <button id="secondaryPrint" class="secondaryToolbarButton print visibleMediumView" title="Print" tabindex="53" data-l10n-id="print">
+              <span data-l10n-id="print_label">Print</span>
+            </button>
+
+            <button id="secondaryDownload" class="secondaryToolbarButton download visibleMediumView" title="Download" tabindex="54" data-l10n-id="download">
+              <span data-l10n-id="download_label">Download</span>
+            </button>
+
+            <a href="https://www.apnacollege.in/pdfplayer/components/pdf/web/viewer.html?file=https%3A%2F%2Fwww.apnacollege.in%2Fpdf-server%2Fv2%2Fstamp%2Fpdf%2FJS%20Part%208%20(Qs).pdf%3Fjwt%3DeyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJhcGkubGVhcm53b3JsZHMuY29tIiwiYXVkIjoicGRmc2VydmljZS5sZWFybndvcmxkcy5jb20iLCJpYXQiOjE3NzcwMDY0NDksImV4cCI6MTc3NzAwNjU2OSwicGF5bG9hZCI6eyJzdGFtcFBheWxvYWQiOnsic2VydmVyIjoiYXNpYS1zZTEiLCJhY2NvdW50IjoibHdmaWxlcyIsImNvbnRhaW5lciI6IjYyYTZjZDVlMWU5ZTJmYmYyMTJkNjA4ZC1wcml2YXRlIiwiYmxvYlBhdGgiOiJwZGYvSlMgUGFydCA4IChRcykucGRmIiwicHJldmlldyI6ZmFsc2UsImNsaWVudElkIjoiNjJhNmNkNWUxZTllMmZiZjIxMmQ2MDhkIiwidXNlclBhc3N3b3JkIjpmYWxzZSwib3duZXJQYXNzd29yZCI6ZmFsc2UsInBlcm1pc3Npb25zIjpudWxsLCJmb250IjpudWxsLCJzdGFtcHMiOlt7ImxvZ29VcmwiOm51bGwsInRleHQiOiJrYXJ0aWtwYW5jaGFsNjg5QGdtYWlsLmNvbSIsInBvc2l0aW9uIjoicmlnaHQiLCJyb3RhdGlvbiI6IjI3MCIsInRyYW5zcGFyZW5jeSI6MC44LCJzdGFtcFRvUGFnZVJhdGlvIjowLjc1LCJ0ZXh0VG9Mb2dvTWF4SGVpZ2h0UmF0aW8iOjAuNX1dLCJjb250ZW50RGlzcG9zaXRpb24iOiJpbmxpbmUifX19.XDkyJmDUnMXTNZKYwsXE0arWO6zZrng12swxrTfKcIHFzQhhmZtVvtSX88hCHe2zeg6X5pd-jzpVNbrP9WBSPNF5fFIDDQCvXMiT6kGxqmWgwgFHh8V371qkEIZg-HaxPaf6vxobUXRJNltVZFKqI_k8H59_GMhYovqmd1TUVl0&amp;isMobileApp=0#page=1&amp;zoom=auto,-22,792" id="secondaryViewBookmark" class="secondaryToolbarButton bookmark visibleSmallView" title="Current view (copy or open in new window)" tabindex="55" data-l10n-id="bookmark" style="display:none">
+              <span data-l10n-id="bookmark_label">Current View</span>
+            </a>
+
+            <div class="horizontalToolbarSeparator visibleLargeView"></div>
+
+            <button id="firstPage" class="secondaryToolbarButton firstPage" title="Go to First Page" tabindex="56" data-l10n-id="first_page" disabled="">
+              <span data-l10n-id="first_page_label">Go to First Page</span>
+            </button>
+            <button id="lastPage" class="secondaryToolbarButton lastPage" title="Go to Last Page" tabindex="57" data-l10n-id="last_page" disabled="">
+              <span data-l10n-id="last_page_label">Go to Last Page</span>
+            </button>
+
+            <div class="horizontalToolbarSeparator"></div>
+
+            <button id="pageRotateCw" class="secondaryToolbarButton rotateCw" title="Rotate Clockwise" tabindex="58" data-l10n-id="page_rotate_cw">
+              <span data-l10n-id="page_rotate_cw_label">Rotate Clockwise</span>
+            </button>
+            <button id="pageRotateCcw" class="secondaryToolbarButton rotateCcw" title="Rotate Counterclockwise" tabindex="59" data-l10n-id="page_rotate_ccw">
+              <span data-l10n-id="page_rotate_ccw_label">Rotate Counterclockwise</span>
+            </button>
+
+            <div class="horizontalToolbarSeparator"></div>
+
+            <button id="cursorSelectTool" class="secondaryToolbarButton selectTool toggled" title="Enable Text Selection Tool" tabindex="60" data-l10n-id="cursor_text_select_tool">
+              <span data-l10n-id="cursor_text_select_tool_label">Text Selection Tool</span>
+            </button>
+            <button id="cursorHandTool" class="secondaryToolbarButton handTool" title="Enable Hand Tool" tabindex="61" data-l10n-id="cursor_hand_tool">
+              <span data-l10n-id="cursor_hand_tool_label">Hand Tool</span>
+            </button>
+
+            <!--<div class="horizontalToolbarSeparator"></div>-->
+
+            <button id="documentProperties" class="secondaryToolbarButton documentProperties" title="Document Properties…" tabindex="62" data-l10n-id="document_properties" style="display:none">
+              <span data-l10n-id="document_properties_label">Document Properties…</span>
+            </button>
+          </div>
+        </div>  <!-- secondaryToolbar -->
+
+        <div class="toolbar">
+          <div id="toolbarContainer">
+            <div id="toolbarViewer">
+              <div id="toolbarViewerLeft">
+                <button id="sidebarToggle" class="toolbarButton" title="Toggle Sidebar" tabindex="11" data-l10n-id="toggle_sidebar">
+                  <span data-l10n-id="toggle_sidebar_label">Toggle Sidebar</span>
+                </button>
+                <div class="toolbarButtonSpacer"></div>
+                <button id="viewFind" class="toolbarButton" title="Find in Document" tabindex="12" data-l10n-id="findbar">
+                  <span data-l10n-id="findbar_label">Find</span>
+                </button>
+                <div class="splitToolbarButton hiddenSmallView">
+                  <button class="toolbarButton pageUp" title="Previous Page" id="previous" tabindex="13" data-l10n-id="previous" disabled="">
+                    <span data-l10n-id="previous_label">Previous</span>
+                  </button>
+                  <div class="splitToolbarButtonSeparator"></div>
+                  <button class="toolbarButton pageDown" title="Next Page" id="next" tabindex="14" data-l10n-id="next" disabled="">
+                    <span data-l10n-id="next_label">Next</span>
+                  </button>
+                </div>
+                <input type="number" id="pageNumber" class="toolbarField pageNumber" title="Page" value="1" size="4" min="1" tabindex="15" data-l10n-id="page" max="1">
+                <span id="numPages" class="toolbarLabel">of 1</span>
+              </div>
+              <div id="toolbarViewerRight">
+                <button id="presentationMode" class="toolbarButton presentationMode hiddenLargeView" title="Switch to Presentation Mode" tabindex="31" data-l10n-id="presentation_mode">
+                  <span data-l10n-id="presentation_mode_label">Presentation Mode</span>
+                </button>
+
+                <button id="openFile" class="toolbarButton openFile hiddenLargeView" title="Open File" tabindex="32" data-l10n-id="open_file" style="display:none">
+                  <span data-l10n-id="open_file_label">Open</span>
+                </button>
+
+                <button id="print" class="toolbarButton print " title="Print" tabindex="33" data-l10n-id="print">
+                  <span data-l10n-id="print_label">Print</span>
+                </button>
+
+                <button id="download" class="toolbarButton download hiddenMediumView" title="Download" tabindex="34" data-l10n-id="download">
+                  <span data-l10n-id="download_label">Download</span>
+                </button>
+                <a href="https://www.apnacollege.in/pdfplayer/components/pdf/web/viewer.html?file=https%3A%2F%2Fwww.apnacollege.in%2Fpdf-server%2Fv2%2Fstamp%2Fpdf%2FJS%20Part%208%20(Qs).pdf%3Fjwt%3DeyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJhcGkubGVhcm53b3JsZHMuY29tIiwiYXVkIjoicGRmc2VydmljZS5sZWFybndvcmxkcy5jb20iLCJpYXQiOjE3NzcwMDY0NDksImV4cCI6MTc3NzAwNjU2OSwicGF5bG9hZCI6eyJzdGFtcFBheWxvYWQiOnsic2VydmVyIjoiYXNpYS1zZTEiLCJhY2NvdW50IjoibHdmaWxlcyIsImNvbnRhaW5lciI6IjYyYTZjZDVlMWU5ZTJmYmYyMTJkNjA4ZC1wcml2YXRlIiwiYmxvYlBhdGgiOiJwZGYvSlMgUGFydCA4IChRcykucGRmIiwicHJldmlldyI6ZmFsc2UsImNsaWVudElkIjoiNjJhNmNkNWUxZTllMmZiZjIxMmQ2MDhkIiwidXNlclBhc3N3b3JkIjpmYWxzZSwib3duZXJQYXNzd29yZCI6ZmFsc2UsInBlcm1pc3Npb25zIjpudWxsLCJmb250IjpudWxsLCJzdGFtcHMiOlt7ImxvZ29VcmwiOm51bGwsInRleHQiOiJrYXJ0aWtwYW5jaGFsNjg5QGdtYWlsLmNvbSIsInBvc2l0aW9uIjoicmlnaHQiLCJyb3RhdGlvbiI6IjI3MCIsInRyYW5zcGFyZW5jeSI6MC44LCJzdGFtcFRvUGFnZVJhdGlvIjowLjc1LCJ0ZXh0VG9Mb2dvTWF4SGVpZ2h0UmF0aW8iOjAuNX1dLCJjb250ZW50RGlzcG9zaXRpb24iOiJpbmxpbmUifX19.XDkyJmDUnMXTNZKYwsXE0arWO6zZrng12swxrTfKcIHFzQhhmZtVvtSX88hCHe2zeg6X5pd-jzpVNbrP9WBSPNF5fFIDDQCvXMiT6kGxqmWgwgFHh8V371qkEIZg-HaxPaf6vxobUXRJNltVZFKqI_k8H59_GMhYovqmd1TUVl0&amp;isMobileApp=0#page=1&amp;zoom=auto,-22,792" id="viewBookmark" class="toolbarButton bookmark hiddenSmallView" title="Current view (copy or open in new window)" tabindex="35" data-l10n-id="bookmark" style="display:none">
+                  <span data-l10n-id="bookmark_label">Current View</span>
+                </a>
+
+                <div class="verticalToolbarSeparator hiddenSmallView"></div>
+
+                <button id="secondaryToolbarToggle" class="toolbarButton" title="Tools" tabindex="36" data-l10n-id="tools">
+                  <span data-l10n-id="tools_label">Tools</span>
+                </button>
+              </div>
+              <div id="toolbarViewerMiddle">
+                <div class="splitToolbarButton">
+                  <button id="zoomOut" class="toolbarButton zoomOut" title="Zoom Out" tabindex="21" data-l10n-id="zoom_out">
+                    <span data-l10n-id="zoom_out_label">Zoom Out</span>
+                  </button>
+                  <div class="splitToolbarButtonSeparator"></div>
+                  <button id="zoomIn" class="toolbarButton zoomIn" title="Zoom In" tabindex="22" data-l10n-id="zoom_in">
+                    <span data-l10n-id="zoom_in_label">Zoom In</span>
+                   </button>
+                </div>
+                <span id="scaleSelectContainer" class="dropdownToolbarButton" style="min-width: 120px; max-width: 120px;">
+                  <select id="scaleSelect" title="Zoom" tabindex="23" data-l10n-id="zoom" style="min-width: 142px;">
+                    <option id="pageAutoOption" title="" value="auto" selected="selected" data-l10n-id="page_scale_auto">Automatic Zoom</option>
+                    <option id="pageActualOption" title="" value="page-actual" data-l10n-id="page_scale_actual">Actual Size</option>
+                    <option id="pageFitOption" title="" value="page-fit" data-l10n-id="page_scale_fit">Page Fit</option>
+                    <option id="pageWidthOption" title="" value="page-width" data-l10n-id="page_scale_width">Page Width</option>
+                    <option id="customScaleOption" title="" value="custom" disabled="disabled" hidden="true"></option>
+                    <option title="" value="0.5" data-l10n-id="page_scale_percent" data-l10n-args="{ &quot;scale&quot;: 50 }">50%</option>
+                    <option title="" value="0.75" data-l10n-id="page_scale_percent" data-l10n-args="{ &quot;scale&quot;: 75 }">75%</option>
+                    <option title="" value="1" data-l10n-id="page_scale_percent" data-l10n-args="{ &quot;scale&quot;: 100 }">100%</option>
+                    <option title="" value="1.25" data-l10n-id="page_scale_percent" data-l10n-args="{ &quot;scale&quot;: 125 }">125%</option>
+                    <option title="" value="1.5" data-l10n-id="page_scale_percent" data-l10n-args="{ &quot;scale&quot;: 150 }">150%</option>
+                    <option title="" value="2" data-l10n-id="page_scale_percent" data-l10n-args="{ &quot;scale&quot;: 200 }">200%</option>
+                    <option title="" value="3" data-l10n-id="page_scale_percent" data-l10n-args="{ &quot;scale&quot;: 300 }">300%</option>
+                    <option title="" value="4" data-l10n-id="page_scale_percent" data-l10n-args="{ &quot;scale&quot;: 400 }">400%</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div id="loadingBar" class="hidden" style="width: calc(100% - 14px);">
+              <div class="progress indeterminate" style="height: 100%; width: 100%;">
+                <div class="glimmer">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <menu type="context" id="viewerContextMenu">
+          <menuitem id="contextFirstPage" label="First Page" data-l10n-id="first_page" title="Go to First Page"></menuitem>
+          <menuitem id="contextLastPage" label="Last Page" data-l10n-id="last_page" title="Go to Last Page"></menuitem>
+          <menuitem id="contextPageRotateCw" label="Rotate Clockwise" data-l10n-id="page_rotate_cw" title="Rotate Clockwise"></menuitem>
+          <menuitem id="contextPageRotateCcw" label="Rotate Counter-Clockwise" data-l10n-id="page_rotate_ccw" title="Rotate Counterclockwise"></menuitem>
+        </menu>
+
+        <div id="viewerContainer" tabindex="0">
+          <div id="viewer" class="pdfViewer"><div class="page" data-page-number="1" style="width: 589px; height: 763px;" data-loaded="true"><div class="canvasWrapper" style="width: 589px; height: 763px;"><canvas id="page1" width="812" height="1050" style="width: 590px; height: 765px;"></canvas></div><div class="textLayer" style="width: 589px; height: 763px;"><div style="left: 238.874px; top: 69.9314px; font-size: 23.1373px; font-family: sans-serif; transform: scaleX(1.00576);">JS</div><div style="left: 271.784px; top: 69.9314px; font-size: 23.1373px; font-family: sans-serif; transform: scaleX(0.996407);">(P</div><div style="left: 294.706px; top: 69.9314px; font-size: 23.1373px; font-family: sans-serif; transform: scaleX(1.0135);">ar</div><div style="left: 316.1150082107843px; top: 69.93144914215694px; font-size: 23.13725490196078px; font-family: sans-serif;">t</div><div style="left: 329.695px; top: 69.9314px; font-size: 23.1373px; font-family: sans-serif; transform: scaleX(1.04206);">8)</div><div style="left: 214.259px; top: 101.779px; font-size: 19.281px; font-family: sans-serif; transform: scaleX(1.00729);">Practice</div><div style="left: 289.179px; top: 101.779px; font-size: 19.281px; font-family: sans-serif; transform: scaleX(0.997215);">Questions</div><div style="left: 34.7059px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00002);">Qs1.</div><div style="left: 66.9403px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00004);">Square</div><div style="left: 114.185px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">and</div><div style="left: 140.439px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00019);">sum</div><div style="left: 169.67px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00017);">the</div><div style="left: 192.17px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00006);">array</div><div style="left: 226.65px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00001);">elements</div><div style="left: 285.132px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00007);">using</div><div style="left: 321.127px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00017);">the</div><div style="left: 343.627px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.0001);">arrow</div><div style="left: 381.104px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00003);">function</div><div style="left: 432.097px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">and</div><div style="left: 458.351px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.0001);">then</div><div style="left: 488.353px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">find</div><div style="left: 513.849px; top: 178.119px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00017);">the</div><div style="left: 34.7059px; top: 195.967px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00003);">average</div><div style="left: 87.2005px; top: 195.967px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">of</div><div style="left: 102.198px; top: 195.967px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00017);">the</div><div style="left: 124.698px; top: 195.967px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999988);">array.</div><div style="left: 34.7059px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00002);">Qs2.</div><div style="left: 66.9403px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00005);">Create</div><div style="left: 111.17542155637253px; top: 249.5109316656955px; font-size: 13.496731544117646px; font-family: sans-serif;">a</div><div style="left: 122.425px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00016);">new</div><div style="left: 150.919px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00006);">array</div><div style="left: 185.399px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00007);">using</div><div style="left: 221.394px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00017);">the</div><div style="left: 243.894px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.0001);">map</div><div style="left: 273.882px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00003);">function</div><div style="left: 324.875px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00005);">whose</div><div style="left: 367.615px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00008);">each</div><div style="left: 400.614px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999985);">element</div><div style="left: 452.351px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00033);">is</div><div style="left: 465.84px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999993);">equal</div><div style="left: 502.593px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00031);">to</div><div style="left: 517.59px; top: 249.511px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00017);">the</div><div style="left: 34.7059px; top: 267.359px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999981);">original</div><div style="left: 81.9444px; top: 267.359px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999985);">element</div><div style="left: 133.682px; top: 267.359px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00009);">plus</div><div style="left: 162.175px; top: 267.359px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">5.</div><div style="left: 34.7059px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00002);">Qs3.</div><div style="left: 66.9403px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00005);">Create</div><div style="left: 111.17542155637253px; top: 320.90258019510736px; font-size: 13.496731544117646px; font-family: sans-serif;">a</div><div style="left: 122.425px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00016);">new</div><div style="left: 150.919px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00006);">array</div><div style="left: 185.399px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00005);">whose</div><div style="left: 228.139px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00001);">elements</div><div style="left: 286.621px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00016);">are</div><div style="left: 309.864px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00034);">in</div><div style="left: 324.111px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00001);">uppercase</div><div style="left: 390.852px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">of</div><div style="left: 405.85px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00005);">words</div><div style="left: 445.58px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999989);">present</div><div style="left: 494.32px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00034);">in</div><div style="left: 508.567px; top: 320.903px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00017);">the</div><div style="left: 34.7059px; top: 338.75px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999981);">original</div><div style="left: 81.9444px; top: 338.75px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999988);">array.</div><div style="left: 34.7059px; top: 391.764px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00002);">Qs4.</div><div style="left: 66.9403px; top: 391.764px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00007);">Write</div><div style="left: 101.9146369485294px; top: 391.76369146961713px; font-size: 13.496731544117646px; font-family: sans-serif;">a</div><div style="left: 113.164px; top: 391.764px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00003);">function</div><div style="left: 164.157px; top: 391.764px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00006);">called</div><div style="left: 203.15px; top: 391.764px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.99997);">doubleAndReturnArgs</div><div style="left: 339.629px; top: 391.764px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00006);">which</div><div style="left: 377.864px; top: 391.764px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00002);">accepts</div><div style="left: 428.099px; top: 391.764px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00022);">an</div><div style="left: 446.851px; top: 391.764px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00006);">array</div><div style="left: 481.331px; top: 391.764px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">and</div><div style="left: 507.58522095588233px; top: 391.76369146961713px; font-size: 13.496731544117646px; font-family: sans-serif;">a</div><div style="left: 34.7059px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00003);">variable</div><div style="left: 85.6922px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999997);">number</div><div style="left: 135.177px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">of</div><div style="left: 150.174px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999973);">arguments.</div><div style="left: 221.401px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00012);">The</div><div style="left: 248.392px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00003);">function</div><div style="left: 299.385px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00005);">should</div><div style="left: 342.883px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00006);">return</div><div style="left: 381.8683680147058px; top: 409.6116060121008px; font-size: 13.496731544117646px; font-family: sans-serif;">a</div><div style="left: 393.118px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00016);">new</div><div style="left: 421.611px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00006);">array</div><div style="left: 456.092px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00012);">with</div><div style="left: 483.828px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00017);">the</div><div style="left: 506.327px; top: 409.612px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999981);">original</div><div style="left: 34.7059px; top: 427.46px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00006);">array</div><div style="left: 69.1863px; top: 427.46px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00004);">values</div><div style="left: 111.926px; top: 427.46px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">and</div><div style="left: 138.18px; top: 427.46px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00007);">all</div><div style="left: 155.424px; top: 427.46px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">of</div><div style="left: 170.421px; top: 427.46px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00017);">the</div><div style="left: 192.921px; top: 427.46px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999971);">additional</div><div style="left: 254.419px; top: 427.46px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1);">arguments</div><div style="left: 321.898px; top: 427.46px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999982);">doubled.</div><div style="left: 34.7059px; top: 481.003px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00002);">Qs5.</div><div style="left: 66.9403px; top: 481.003px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00007);">Write</div><div style="left: 101.9146369485294px; top: 481.00325454151255px; font-size: 13.496731544117646px; font-family: sans-serif;">a</div><div style="left: 113.164px; top: 481.003px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00003);">function</div><div style="left: 164.157px; top: 481.003px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00006);">called</div><div style="left: 203.15px; top: 481.003px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999987);">mergeObjects</div><div style="left: 290.862px; top: 481.003px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00004);">that</div><div style="left: 317.11px; top: 481.003px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00002);">accepts</div><div style="left: 367.345px; top: 481.003px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00014);">two</div><div style="left: 392.084px; top: 481.003px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00003);">objects</div><div style="left: 438.572px; top: 481.003px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">and</div><div style="left: 464.826px; top: 481.003px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00003);">returns</div><div style="left: 510.5557118872548px; top: 481.00325454151255px; font-size: 13.496731544117646px; font-family: sans-serif;">a</div><div style="left: 521.806px; top: 481.003px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00016);">new</div><div style="left: 34.7059px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1);">object</div><div style="left: 74.449px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00006);">which</div><div style="left: 112.684px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00002);">contains</div><div style="left: 166.673px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00007);">all</div><div style="left: 183.917px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00017);">the</div><div style="left: 206.417px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00008);">keys</div><div style="left: 237.9px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">and</div><div style="left: 264.154px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00004);">values</div><div style="left: 306.894px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">of</div><div style="left: 321.891px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00017);">the</div><div style="left: 344.391px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00004);">first</div><div style="left: 369.868px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1);">object</div><div style="left: 409.611px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00013);">and</div><div style="left: 435.865px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(1.00004);">second</div><div style="left: 483.11px; top: 498.851px; font-size: 13.4967px; font-family: sans-serif; transform: scaleX(0.999995);">object.</div><div style="left: 593.075px; top: 98.1791px; font-size: 40.0949px; font-family: sans-serif; transform: rotate(90deg) scaleX(1.05874);">kartikpanchal689@gmail.com</div><div class="endOfContent" style=""></div></div></div></div>
+        </div>
+
+        <div id="errorWrapper" hidden="true">
+          <div id="errorMessageLeft">
+            <span id="errorMessage"></span>
+            <button id="errorShowMore" data-l10n-id="error_more_info">More Information</button>
+            <button id="errorShowLess" data-l10n-id="error_less_info" hidden="true">Less Information</button>
+          </div>
+          <div id="errorMessageRight">
+            <button id="errorClose" data-l10n-id="error_close">Close</button>
+          </div>
+          <div class="clearBoth"></div>
+          <textarea id="errorMoreInfo" hidden="true" readonly="readonly"></textarea>
+        </div>
+      </div> <!-- mainContainer -->
+
+      <div id="overlayContainer" class="hidden">
+        <div id="passwordOverlay" class="container hidden">
+          <div class="dialog">
+            <div class="row">
+              <p id="passwordText" data-l10n-id="password_label">Enter the password to open this PDF file.</p>
+            </div>
+            <div class="row">
+              <input type="password" id="password" class="toolbarField">
+            </div>
+            <div class="buttonRow">
+              <button id="passwordCancel" class="overlayButton"><span data-l10n-id="password_cancel">Cancel</span></button>
+              <button id="passwordSubmit" class="overlayButton"><span data-l10n-id="password_ok">OK</span></button>
+            </div>
+          </div>
+        </div>
+        <div id="documentPropertiesOverlay" class="container hidden">
+          <div class="dialog">
+            <div class="row">
+              <span data-l10n-id="document_properties_file_name">File name:</span> <p id="fileNameField">-</p>
+            </div>
+            <div class="row">
+              <span data-l10n-id="document_properties_file_size">File size:</span> <p id="fileSizeField">-</p>
+            </div>
+            <div class="separator"></div>
+            <div class="row">
+              <span data-l10n-id="document_properties_title">Title:</span> <p id="titleField">-</p>
+            </div>
+            <div class="row">
+              <span data-l10n-id="document_properties_author">Author:</span> <p id="authorField">-</p>
+            </div>
+            <div class="row">
+              <span data-l10n-id="document_properties_subject">Subject:</span> <p id="subjectField">-</p>
+            </div>
+            <div class="row">
+              <span data-l10n-id="document_properties_keywords">Keywords:</span> <p id="keywordsField">-</p>
+            </div>
+            <div class="row">
+              <span data-l10n-id="document_properties_creation_date">Creation Date:</span> <p id="creationDateField">-</p>
+            </div>
+            <div class="row">
+              <span data-l10n-id="document_properties_modification_date">Modification Date:</span> <p id="modificationDateField">-</p>
+            </div>
+            <div class="row">
+              <span data-l10n-id="document_properties_creator">Creator:</span> <p id="creatorField">-</p>
+            </div>
+            <div class="separator"></div>
+            <div class="row">
+              <span data-l10n-id="document_properties_producer">PDF Producer:</span> <p id="producerField">-</p>
+            </div>
+            <div class="row">
+              <span data-l10n-id="document_properties_version">PDF Version:</span> <p id="versionField">-</p>
+            </div>
+            <div class="row">
+              <span data-l10n-id="document_properties_page_count">Page Count:</span> <p id="pageCountField">-</p>
+            </div>
+            <div class="buttonRow">
+              <button id="documentPropertiesClose" class="overlayButton"><span data-l10n-id="document_properties_close">Close</span></button>
+            </div>
+          </div>
+        </div>
+        <div id="printServiceOverlay" class="container hidden">
+          <div class="dialog">
+            <div class="row">
+              <span data-l10n-id="print_progress_message">Preparing document for printing…</span>
+            </div>
+            <div class="row">
+              <progress value="0" max="100"></progress>
+              <span data-l10n-id="print_progress_percent" data-l10n-args="{ &quot;progress&quot;: 0 }" class="relative-progress">0%</span>
+            </div>
+            <div class="buttonRow">
+              <button id="printCancel" class="overlayButton"><span data-l10n-id="print_progress_close">Cancel</span></button>
+            </div>
+          </div>
+        </div>
+      </div>  <!-- overlayContainer -->
+
+    </div> <!-- outerContainer -->
+    <div id="printContainer"></div>
+    <script>	var DOWNLOAD_PDF_BUTTON=true;
+	var PRINT_PDF_BUTTON=true;
+	var SELECT_PDF_BUTTON=true;
+</script><script id="lw_script">
+        window.addEventListener('message', lw_receiver, false);
+        var params = {};
+        window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,function(_, key, value) {return params[key] = value;});
+        function lw_receiver(e) {
+            var data = e.data;
+            init();
+            if (typeof data.newUrl !== "undefined") {
+                window.location.replace(data.newUrl);
+                return;
+            }
+        }
+        function init () {
+            const downloadButton = window.DOWNLOAD_PDF_BUTTON;
+            const printButton = window.PRINT_PDF_BUTTON;
+            const cursorSelectToolButton = window.SELECT_PDF_BUTTON;
+            if (!downloadButton) {
+                var element = document.getElementById('download');
+                var element2 = document.getElementById('secondaryDownload');
+                element?.parentNode.removeChild(element);
+                element2?.parentNode.removeChild(element2);
+
+                window.PDFViewerApplication.download = function(){};
+
+            }
+            if (!printButton) {
+                var element = document.getElementById('print');
+                var element2 = document.getElementById('secondaryPrint');
+                element?.parentNode.removeChild(element);
+                element2?.parentNode.removeChild(element2);
+                window.print = function(){console.log('printing is not perimitted')};
+            }
+            if (!cursorSelectToolButton) {
+                var element = document.getElementById('cursorSelectTool');
+                element?.parentNode.removeChild(element);
+
+                PDFJS.disableTextLayer = true;
+            }
+            if (typeof params.isMobileApp !== 'undefined' && params.isMobileApp=='1') {
+                var printElement = document.getElementById('print');
+                if (printElement) {
+                    printElement.parentNode.removeChild(printElement);
+                }
+                var presentationModeElement = document.getElementById('presentationMode');
+                if (presentationModeElement) {
+                    presentationModeElement.parentNode.removeChild(presentationModeElement);
+                }
+            }
+        }
+
+
+
+        // For inactivity watching inside the pdf cross-origin frame
+        function throttle (callback, limit) {
+            var waiting = false;                      // Initially, we're not waiting
+            return function () {                      // We return a throttled function
+                if (!waiting) {                       // If we're not waiting
+                    callback.apply(this, arguments);  // Execute users function
+                    waiting = true;                   // Prevent future invocations
+                    setTimeout(function () {          // After a period of time
+                        waiting = false;              // And allow future invocations
+                    }, limit);
+                }
+            }
+        }
+
+        ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'pointermove'].forEach(function (event) {
+            document.body.addEventListener(event, throttle(function () {
+                window.top.postMessage({ message: 'activityDetected' }, '*');
+            }, 1000))
+        })
+
+
+        // TODO Only for ie
+        PDFJS.disableRange = true;
+    </script>
+  
+
+
+<input id="fileInput" class="fileInput" type="file"></body></html>

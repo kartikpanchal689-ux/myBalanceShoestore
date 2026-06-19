@@ -28,7 +28,7 @@ export default function HeroSlider() {
       subtitle: "Iconic silhouettes for the everyday.",
       btnText: "SHOP LIFESTYLE",
       btnLink: "/category/lifestyle",
-      bgImage: "/myBalanceShoestore/images/MainPage.jpg",
+      bgImage: "/myBalanceShoestore/images/MainPage1.jpg",
       bgImageMobile: "/myBalanceShoestore/images/lifestyle1-mobile.jpg",
       bgColor: "#ebebeb"
     },

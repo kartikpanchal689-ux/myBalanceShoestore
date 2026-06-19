@@ -40,7 +40,7 @@ export default function HeroSlider() {
       subtitle: "Gear up for every challenge.",
       btnText: "SHOP TRAINING",
       btnLink: "/category/training",
-      bgImage: "/myBalanceShoestore/images/MainPage.jpg",
+      bgImage: "/myBalanceShoestore/images/MainPage2.jpg",
       bgImageMobile: "/myBalanceShoestore/images/training1-mobile.jpg",
       bgColor: "#e5e5e5"
     }
